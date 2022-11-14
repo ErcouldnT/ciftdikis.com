@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex justify-center items-center m-5 px-5">
-	<div class="navbar bg-base-100 m-auto gap-2">
+	<div class="flex-col navbar bg-base-100 m-auto gap-2 md:flex-row">
 		<div class="flex-1">
 			<a href="/">
 				<img class="h-36" src="CDlogo.png" alt="Logo" />
