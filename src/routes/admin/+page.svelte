@@ -21,6 +21,7 @@
 			fiyat,
 			link
 		);
+    alert('Ürün kaydetme başarılı.');
 	};
 </script>
 
