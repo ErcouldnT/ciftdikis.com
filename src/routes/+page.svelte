@@ -2,6 +2,18 @@
   import { goto } from '$app/navigation';
 	import { items } from '../stores';
 
+	import { onMount } from 'svelte';
+	import { user, isLoggedIn } from '../stores';
+	// import { allBooks } from '../api/bookApi?client';
+
+	// let books;
+
+	// onMount(async () => {
+	// 	const booksData = await allBooks(); // Add that to store
+	// 	books = [...booksData];
+	// 	// console.log(books);
+	// });
+
   const goToProduct = (name) => {
     goto(name.trim().replace(" ", "-").toLowerCase());
   };

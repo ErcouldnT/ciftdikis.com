@@ -1,6 +1,31 @@
 <script>
-	// import { goto } from '$app/navigation';
-	import { shoppingCart } from '../../stores';
+	import { goto } from '$app/navigation';
+	import { shoppingCart, user, isLoggedIn } from '../../stores';
+	import { auth } from '../../firebase?client';
+	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
+
+	const login = async () => {
+		try {
+			const provider = new GoogleAuthProvider();
+			const res = await signInWithPopup(auth, provider);
+			$user = res.user;
+			$isLoggedIn = true;
+			// goto('/profile');
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const logout = async () => {
+		try {
+			await signOut(auth);
+			$user = {};
+			$isLoggedIn = false;
+			// goto('/');
+		} catch (error) {
+			console.error(error);
+		}
+	};
 </script>
 
 <div class="flex justify-center items-center m-5 px-5">
@@ -44,26 +69,31 @@
 					</div>
 				</div>
 			</div>
-			<div class="dropdown dropdown-end">
-				<label tabindex="0" class="btn btn-ghost btn-circle avatar">
-					<div class="w-10 rounded-full">
-						<img src="https://placeimg.com/80/80/people" />
-					</div>
-				</label>
-				<ul
-					tabindex="0"
-					class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-				>
-					<li>
-						<a class="justify-between">
-							Profil
-							<span class="badge">Yeni</span>
-						</a>
-					</li>
-					<li><a>Ayarlar</a></li>
-					<li><a>Çıkış</a></li>
-				</ul>
-			</div>
+
+			{#if $isLoggedIn}
+				<div class="dropdown dropdown-end">
+					<label tabindex="0" class="btn btn-ghost btn-circle avatar">
+						<div class="w-10 rounded-full">
+							<img src={$user.photoURL} />
+						</div>
+					</label>
+					<ul
+						tabindex="0"
+						class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+					>
+						<li>
+							<a href="/admin" class="justify-between">
+								Admin paneli
+								<span class="badge">Yeni</span>
+							</a>
+						</li>
+						<li><a>Ayarlar</a></li>
+						<li on:click={logout}><a>Çıkış</a></li>
+					</ul>
+				</div>
+			{:else}
+				<button on:click={login} class="btn btn-outline btn-warning">Giriş yap</button>
+			{/if}
 		</div>
 	</div>
 </div>

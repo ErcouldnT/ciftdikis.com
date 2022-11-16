@@ -29,3 +29,6 @@ export const items = writable([
 ]);
 
 export const shoppingCart = writable([]);
+export const user = writable({});
+export const isLoggedIn = writable(false);
+export const books = writable([]);
