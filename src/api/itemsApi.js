@@ -12,31 +12,33 @@ import {
 import { db } from '../firebase';
 
 // Change this to set()
-export const bookCreator = async ({ slug, title, desc, creator }) => {
+export const itemCreator = async (slug, productName, desc, seller, price, imgLink) => {
 	try {
-		const docRef = await addDoc(collection(db, 'books'), {
+		const docRef = await addDoc(collection(db, 'ürünler'), {
 			slug,
-			title,
+			productName,
 			desc,
-			creator,
+			seller,
+			price,
+			imgLink,
 			createdAt: serverTimestamp(),
-			content: []
+			comments: []
 		});
-		console.log('Book written with ID: ', docRef.id);
+		console.log('Ürün kaydedildi: ', docRef.id);
 	} catch (e) {
-		console.error('Error adding book: ', e);
+		console.error('Ürün kaydı başarısız: ', e);
 	}
 };
 
-export const allBooks = async () => {
-	let books = [];
+export const allItems = async () => {
+	let items = [];
 
-	const querySnapshot = await getDocs(collection(db, 'books'));
+	const querySnapshot = await getDocs(collection(db, 'ürünler'));
 	querySnapshot.forEach((doc) => {
-		books.push(doc.data());
+		items.push(doc.data());
 	});
 
-	return books;
+	return items;
 };
 
 // export const getBook = async (slug) => {
@@ -51,7 +53,7 @@ export const allBooks = async () => {
 // 	}
 // };
 
-export const getBook = async (slug) => {
+export const getItem = async (slug) => {
 	let books = [];
 	const booksRef = collection(db, 'books');
 
@@ -67,6 +69,6 @@ export const getBook = async (slug) => {
 	return books[0];
 };
 
-export const addContent = async (slug, content, writer) => {
-	return null;
-};
+// export const addContent = async (slug, content, writer) => {
+// 	return null;
+// };
