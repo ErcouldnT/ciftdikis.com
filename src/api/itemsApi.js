@@ -54,19 +54,19 @@ export const allItems = async () => {
 // };
 
 export const getItem = async (slug) => {
-	let books = [];
-	const booksRef = collection(db, 'books');
+	let items = [];
+	const itemsRef = collection(db, 'ürünler');
 
 	// Create a query against the collection.
-	const q = query(booksRef, where('slug', '==', slug));
+	const q = query(itemsRef, where('slug', '==', slug));
 
 	const querySnapshot = await getDocs(q);
 	querySnapshot.forEach((doc) => {
 		// doc.data() is never undefined for query doc snapshots
-		books.push(doc.data());
+		items.push(doc.data());
 	});
 
-	return books[0];
+	return items[0];
 };
 
 // export const addContent = async (slug, content, writer) => {

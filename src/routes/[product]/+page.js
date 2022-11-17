@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 export function load({ params }) {
 	if (params.product) {
 		return {
-			name: params.product,
+			productName: params.product.toLowerCase(),
 		};
 	}
 
