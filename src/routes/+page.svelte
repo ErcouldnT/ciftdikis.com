@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-	<title>Çift Dikiş | Tshirt ve daha fazlası...</title>
+	<title>Çift Dikiş | Sizin için her şeyi yapar</title>
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
