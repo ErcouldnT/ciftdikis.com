@@ -5,7 +5,7 @@ export const items = writable([]);
 
 // const stored = localStorage.cart;
 
-export const shoppingCart = writable(browser ? JSON.parse(localStorage.getItem('cart')) : [] || []);
+export const shoppingCart = writable((browser && localStorage.cart) ? JSON.parse(localStorage.getItem('cart')) : [] || []);
 
 shoppingCart.subscribe((value) => {
 	if (browser) {
