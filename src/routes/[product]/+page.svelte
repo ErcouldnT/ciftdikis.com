@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { getItem } from '../../api/itemsApi?client';
-	// import { user, isLoggedIn } from '../../stores';
+	import { shoppingCart } from '../../stores';
+
+	let productList = $shoppingCart;
 
 	export let data;
 
@@ -14,6 +16,12 @@
 		// console.log(product);
 		if (!product.productName) goto('/');
 	});
+
+	const sepeteEkle = () => {
+		productList.push(product);
+		shoppingCart.set(productList);
+		// console.log($shoppingCart);
+	};
 </script>
 
 <svelte:head>
@@ -33,7 +41,7 @@
 				<p class="text-2xl font-bold">{product.price} ₺</p>
 				<div class="card-actions justify-end">
 					<!-- <button class="btn btn-primary">Sepete ekle</button> -->
-					<label for="my-modal-4" class="btn btn-primary">Sepete ekle</label>
+					<label on:click={sepeteEkle} for="my-modal-4" class="btn btn-primary">Sepete ekle</label>
 				</div>
 			</div>
 		</div>
