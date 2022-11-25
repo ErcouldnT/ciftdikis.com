@@ -2,7 +2,7 @@
 	import { each } from 'svelte/internal';
 	import { shoppingCart } from '../../stores';
 
-	console.log($shoppingCart);
+	// console.log($shoppingCart);
 </script>
 
 {#if $shoppingCart.length}
