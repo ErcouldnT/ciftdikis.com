@@ -24,7 +24,7 @@
 <div class="flex flex-wrap gap-5 justify-center items-center">
 	{#each $items as item}
 		<div on:click={goToProduct(item.productName)} class="card w-96 bg-base-100 shadow-xl cursor-pointer mb-7">
-			<figure><img class="h-72" src={item.imgLink} alt="Ürün" /></figure>
+			<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
 			<div class="card-body">
 				<h2 class="card-title">{item.productName}</h2>
 				<p class="font-bold text-2xl">{item.price}₺</p>

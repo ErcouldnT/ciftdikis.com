@@ -38,18 +38,53 @@
 	};
 </script>
 
-<div class="flex justify-center items-center m-5 px-5">
-	<div class="flex-col navbar bg-base-100 m-auto gap-2 md:flex-row">
+<div class="navbar bg-base-100 flex-col md:flex-row">
+	<div class="navbar-start">
 		<div class="flex-1">
-			<a href="/">
+			<a href="/" class="flex justify-center items-center">
 				<img class="h-36" src="CDlogo.png" alt="Logo" />
 			</a>
 			<!-- <a href="/" class="btn btn-ghost normal-case text-xl">Çift Dikiş</a> -->
 		</div>
-		<div class="form-control">
+	</div>
+	<div class="navbar-center">
+		<ul class="menu menu-horizontal p-0 m-3">
+			<!-- <li tabindex="0">
+				<a class="btn btn-outline btn-warning rounded-lg">
+					Kategoriler
+					<svg
+						class="fill-current"
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
+					>
+				</a>
+				<ul class="p-2 z-10 rounded-lg bg-white w-full border">
+					<li><a>T-shirt</a></li>
+					<li><a>Sweatshirt</a></li>
+					<li><a>Kazak</a></li>
+					<li><a>Gömlek</a></li>
+					<li><a>Eşofman</a></li>
+					<li><a>Kapri</a></li>
+					<li><a>Mont</a></li>
+				</ul>
+			</li> -->
+			<li><a class="rounded-lg btn-outline btn-warning">T-shirt</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Sweatshirt</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Kazak</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Gömlek</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Eşofman</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Kapri</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Mont</a></li>
+		</ul>
+	</div>
+	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
+		<!-- <div class="form-control">
 			<input type="text" placeholder="Ürün ara" class="input input-bordered" />
-		</div>
-		<div class="flex-none gap-2">
+		</div> -->
+		<div class="flex justify-center items-center gap-2">
 			<div class="dropdown dropdown-end">
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
@@ -97,7 +132,10 @@
 								<span class="badge">Yeni</span>
 							</a>
 						</li>
-						<li><a>Ayarlar</a></li>
+						<li><a href="/bilgilerim">Kullanıcı bilgilerim</a></li>
+						<li><a href="/siparisler">Siparişlerim</a></li>
+						<li><a href="/ilanlar">İlanlarım</a></li>
+						<li><a href="/favoriler">Favoriler</a></li>
 						<li on:click={logout}><a>Çıkış</a></li>
 					</ul>
 				</div>
