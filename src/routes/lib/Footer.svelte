@@ -13,7 +13,10 @@
 			/></svg
 		>
 		<p class="font-bold">
-			Çift Dikiş <br />"Sizin için her şeyi yapar"
+			Çift Dikiş <br /> <span class="italic font-normal">"Sizin için her şeyi yapar"</span>
+		</p>
+		<p class="font-bold">
+			<a href="mailto:iletisim@ciftdikis.com">Bize ulaşın</a>
 		</p>
 		<p>Copyright © 2023 - Tüm hakları saklıdır.</p>
 	</div>
