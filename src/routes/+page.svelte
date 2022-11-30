@@ -1,5 +1,5 @@
 <script>
-  import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { items } from '../stores';
 	import { onMount } from 'svelte';
 	import { user, isLoggedIn } from '../stores';
@@ -12,18 +12,22 @@
 		$items = [...itemsData];
 	});
 
-  const goToProduct = (name) => {
-    goto(name.trim().replace(" ", "-").toLowerCase());
-  };
+	const goToProduct = (name) => {
+		goto(name.trim().replace(' ', '-').toLowerCase());
+	};
 </script>
 
 <svelte:head>
-	<title>Çift Dikiş | Sizin için her şeyi yapar</title>
+	<title>Çift Dikiş | Doğal, Şık, Çekici</title>
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
 	{#each $items as item}
-		<div on:click={goToProduct(item.productName)} class="card w-96 bg-base-100 shadow-xl cursor-pointer mb-7">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			on:click={goToProduct(item.productName)}
+			class="card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
+		>
 			<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
 			<div class="card-body">
 				<h2 class="card-title">{item.productName}</h2>
