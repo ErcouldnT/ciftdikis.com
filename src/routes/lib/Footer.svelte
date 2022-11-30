@@ -13,7 +13,7 @@
 			/></svg
 		>
 		<p class="font-bold">
-			Çift Dikiş <br /> <span class="italic font-normal">"Sizin için her şeyi yapar"</span>
+			Çift Dikiş <br /> <span class="italic font-normal">"Herkes Bir Çift İster"</span>
 		</p>
 		<p class="font-bold">
 			<a href="mailto:iletisim@ciftdikis.com">Bize ulaşın</a>
