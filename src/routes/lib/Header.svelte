@@ -41,8 +41,8 @@
 <div class="navbar bg-base-100 flex-col md:flex-row">
 	<div class="navbar-start">
 		<div class="flex-1">
-			<a href="/" class="flex justify-center items-center">
-				<img class="h-36" src="CDlogo.png" alt="Logo" />
+			<a href="/" class="flex justify-center items-center p-10">
+				<img class="h-16" src="CDlogo.png" alt="Logo" />
 			</a>
 			<!-- <a href="/" class="btn btn-ghost normal-case text-xl">Çift Dikiş</a> -->
 		</div>
@@ -133,9 +133,9 @@
 							</a>
 						</li>
 						<li><a href="/bilgilerim">Kullanıcı bilgilerim</a></li>
-						<li><a href="/siparisler">Siparişlerim</a></li>
-						<li><a href="/ilanlar">İlanlarım</a></li>
-						<li><a href="/favoriler">Favoriler</a></li>
+						<li><a href="/siparislerim">Siparişlerim</a></li>
+						<li><a href="/favorilerim">Favorilerim</a></li>
+						<li><a href="/ilanlarim">İlanlarım</a></li>
 						<li on:click={logout}><a>Çıkış</a></li>
 					</ul>
 				</div>
