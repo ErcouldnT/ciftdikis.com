@@ -17,10 +17,27 @@
 		}
 	}
 
-	const nextStep = () => {
+	const goToAddress = () => {
 		cartStep = false;
 		addressStep = true;
 		// for now
+	};
+
+	const goToCheck = () => {
+		addressStep = false;
+		checkStep = true;
+		// for now
+	};
+
+	const goToPayment = () => {
+		checkStep = false;
+		paymentStep = true;
+		// for now
+	};
+
+	const finishPayment = () => {
+		alert('Sipariş oluşturuldu.');
+		goto('/siparislerim');
 	};
 
 	const previousStep = () => {
@@ -42,9 +59,11 @@
 {#if $shoppingCart.length}
 	<div class="flex justify-center items-center">
 		<ul class="steps steps-vertical lg:steps-horizontal">
-			<li class="step {(cartStep || addressStep) && 'step-primary'}">Sepetle</li>
-			<li class="step {addressStep && 'step-primary'}">Adres</li>
-			<li class="step {checkStep && 'step-primary'}">Kontrol</li>
+			<li class="step {(cartStep || addressStep || checkStep || paymentStep) && 'step-primary'}">
+				Sepetle
+			</li>
+			<li class="step {(addressStep || checkStep || paymentStep) && 'step-primary'}">Adres</li>
+			<li class="step {(checkStep || paymentStep) && 'step-primary'}">Kontrol</li>
 			<li class="step {paymentStep && 'step-primary'}">Öde</li>
 		</ul>
 	</div>
@@ -53,13 +72,17 @@
 			Sepet toplam <span class="font-bold">{total} ₺</span>
 		{/if}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div>
+		<!-- <div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div> -->
 	</div>
 {:else}
 	<p class="text-center text-lg">Sepetinizde ürün bulunmamaktadır.</p>
 {/if}
 
 {#if cartStep && $shoppingCart.length}
+	<div class="flex justify-center items-center">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div on:click={goToAddress} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div>
+	</div>
 	<div class="flex flex-wrap justify-center items-center p-5">
 		{#each $shoppingCart as item}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -85,7 +108,27 @@
 {/if}
 
 {#if addressStep && $shoppingCart.length}
+	<div class="flex justify-center items-center">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div on:click={goToCheck} class="btn btn-warning">Sonraki adıma İlerle: Kontrol edin</div>
+	</div>
 	<div class="flex justify-center items-center m-10">
 		<textarea class="textarea textarea-primary w-1/5 h-48" placeholder="Adresinizi buraya yazın" />
+	</div>
+{/if}
+
+{#if checkStep && $shoppingCart.length}
+	<div class="flex flex-col justify-center items-center">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div on:click={goToPayment} class="btn btn-warning">Sonraki adıma İlerle: Ödeme ekranı</div>
+		<div>Sipariş bilgileri ve adres bilgileri burada yer alır</div>
+	</div>
+{/if}
+
+{#if paymentStep && $shoppingCart.length}
+	<div class="flex flex-col justify-center items-center">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div on:click={finishPayment} class="btn btn-error">Siparişi tamamla</div>
+		<div>Kredi kartı bilgileri</div>
 	</div>
 {/if}
