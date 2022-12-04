@@ -7,11 +7,14 @@
 	let checkStep = false;
 	let paymentStep = false;
 
-	let total = 0;
+	let total;
 
-	for (let i = 0; i < $shoppingCart.length; i++) {
-		const item = $shoppingCart[i];
-		total = total + Number(item.price);
+	$: {
+		total = 0;
+		for (let i = 0; i < $shoppingCart.length; i++) {
+			const item = $shoppingCart[i];
+			total = total + Number(item.price);
+		}
 	}
 
 	const nextStep = () => {
@@ -24,8 +27,9 @@
 		// will be here
 	};
 
-	const removeItem = () => {
-		console.log('Ürün silindi.');
+	const removeItem = (item) => {
+		const result = $shoppingCart.filter((product) => product.slug !== item.slug);
+		shoppingCart.set(result);
 	};
 
 	// console.log($shoppingCart);
@@ -44,25 +48,24 @@
 			<li class="step {paymentStep && 'step-primary'}">Öde</li>
 		</ul>
 	</div>
+	<div class="flex flex-col justify-center items-center m-5 gap-2 pt-5">
+		{#if total}
+			Sepet toplam <span class="font-bold">{total} ₺</span>
+		{/if}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div>
+	</div>
 {:else}
 	<p class="text-center text-lg">Sepetinizde ürün bulunmamaktadır.</p>
 {/if}
 
-<div class="flex flex-col justify-center items-center m-5 gap-2 pt-5">
-	{#if total}
-		Sepet toplam <span class="font-bold">{total} ₺</span>
-	{/if}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div>
-</div>
-
-{#if cartStep}
+{#if cartStep && $shoppingCart.length}
 	<div class="flex flex-wrap justify-center items-center p-5">
 		{#each $shoppingCart as item}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div class="w-36 m-10 cursor-pointer relative">
 				<img
-					on:click={removeItem}
+					on:click={removeItem(item)}
 					class="w-9 absolute right-2 top-2 bg-white rounded-full"
 					src="trash.png"
 					alt="Ürünü sepetten kaldır"
@@ -81,7 +84,7 @@
 	</div>
 {/if}
 
-{#if addressStep}
+{#if addressStep && $shoppingCart.length}
 	<div class="flex justify-center items-center m-10">
 		<textarea class="textarea textarea-primary w-1/5 h-48" placeholder="Adresinizi buraya yazın" />
 	</div>
