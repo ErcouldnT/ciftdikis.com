@@ -78,6 +78,7 @@
 			<li><a class="rounded-lg btn-outline btn-warning">Eşofman</a></li>
 			<li><a class="rounded-lg btn-outline btn-warning">Kapri</a></li>
 			<li><a class="rounded-lg btn-outline btn-warning">Mont</a></li>
+			<li><a class="rounded-lg btn-outline btn-warning">Takım Elbise & Smokin</a></li>
 		</ul>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
