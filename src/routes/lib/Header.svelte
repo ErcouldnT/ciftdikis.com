@@ -69,6 +69,7 @@
 					<li><a>Eşofman</a></li>
 					<li><a>Kapri</a></li>
 					<li><a>Mont</a></li>
+					<li><a>Takım Elbise & Smokin</a></li>
 				</ul>
 			</li> -->
 			<li><a class="rounded-lg btn-outline btn-warning">T-shirt</a></li>
