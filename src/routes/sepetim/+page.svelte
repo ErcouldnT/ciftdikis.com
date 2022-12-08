@@ -37,6 +37,7 @@
 
 	const finishPayment = () => {
 		alert('Sipariş oluşturuldu.');
+		$shoppingCart = []; // Sepetteki ürünleri siler.
 		goto('/siparislerim');
 	};
 
