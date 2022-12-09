@@ -28,7 +28,7 @@
 		});
 		admins.forEach((admin) => {
 			if (admin.email === $user.email) {
-				$isAdmin = true;
+				isAdmin.set(true);
 			}
 		});
 
@@ -40,7 +40,7 @@
 		});
 		sellers.forEach((seller) => {
 			if (seller.email === $user.email) {
-				$isSeller = true;
+				isSeller.set(true);
 			}
 		});
 	});
