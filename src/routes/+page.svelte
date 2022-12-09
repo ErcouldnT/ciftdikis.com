@@ -5,8 +5,6 @@
 	import { allItems } from '../api/itemsApi?client';
 	import project from '../config/project';
 
-	// let items;
-
 	onMount(async () => {
 		const itemsData = await allItems(); // Add that to store
 		$items = [...itemsData];

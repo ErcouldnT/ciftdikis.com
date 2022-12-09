@@ -4,11 +4,9 @@
 	import Footer from '../lib/Footer.svelte';
 
 	import { onMount } from 'svelte';
-	import { user, isLoggedIn } from '../stores';
-	import { auth } from '../firebase?client';
 	import { onAuthStateChanged } from 'firebase/auth?client';
-
-	// console.log($user);
+	import { auth } from '../firebase?client';
+	import { user, isLoggedIn } from '../stores';
 
 	onMount(() => {
 		onAuthStateChanged(auth, (authUser) => {

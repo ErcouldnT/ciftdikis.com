@@ -76,7 +76,7 @@
 		<!-- <div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div> -->
 	</div>
 {:else}
-	<p class="text-center text-lg">Sepetinizde ürün bulunmamaktadır.</p>
+	<p class="text-center text-lg h-96">Sepetinizde ürün bulunmamaktadır.</p>
 {/if}
 
 {#if cartStep && $shoppingCart.length}
