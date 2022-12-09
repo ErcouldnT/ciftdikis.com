@@ -21,7 +21,7 @@
 	});
 
 	const goToProduct = (name) => {
-		goto(name.trim().replace(' ', '-').toLowerCase());
+		goto("/" + name.trim().replace(' ', '-').toLowerCase());
 	};
 </script>
 
