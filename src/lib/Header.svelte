@@ -2,11 +2,14 @@
 	import { goto } from '$app/navigation';
 	import Logo from './Logo.svelte';
 	import { shoppingCart, user, isLoggedIn } from '../stores';
+	import { isAdmin, isSeller } from '../stores/user';
 	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
 	import kategoriler from '../config/kategoriler';
 
 	let toplamFiyat;
+
+	// console.log($user);
 
 	$: {
 		toplamFiyat = 0;
@@ -118,15 +121,37 @@
 						class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li>
-							<a href="/admin" class="justify-between">
-								Satıcı paneli
-								<span class="badge">Yeni</span>
-							</a>
+							<a
+								><span class="font-bold text-primary"
+									>Merhaba, {$user.displayName.split(' ')[0]}!</span
+								></a
+							>
 						</li>
+						{#if $isAdmin}
+							<li>
+								<a href="/admin" class="justify-between">
+									Yönetim
+									<span class="badge badge-error">Admin</span>
+								</a>
+							</li>
+						{/if}
+						{#if $isSeller || $isAdmin}
+							<li>
+								<a href="/ilanver" class="justify-between">
+									İlan ver
+									<span class="badge badge-primary">Satıcı</span>
+								</a>
+							</li>
+							<li>
+								<a href="/ilanlarim" class="justify-between">
+									İlanlarım
+									<span class="badge badge-primary">Satıcı</span>
+								</a>
+							</li>
+						{/if}
 						<li><a href="/bilgilerim">Kullanıcı bilgilerim</a></li>
 						<li><a href="/siparislerim">Siparişlerim</a></li>
 						<li><a href="/favorilerim">Favorilerim</a></li>
-						<li><a href="/ilanlarim">İlanlarım</a></li>
 						<li on:click={logout}><a>Çıkış</a></li>
 					</ul>
 				</div>
