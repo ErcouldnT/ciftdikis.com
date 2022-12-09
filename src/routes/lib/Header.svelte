@@ -1,5 +1,5 @@
 <script>
-	// import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { shoppingCart, user, isLoggedIn } from '../../stores';
 	import { auth } from '../../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
@@ -74,7 +74,9 @@
 				</ul>
 			</li> -->
 			{#each Object.keys(kategoriler) as key}
-				<li><a class="rounded-lg btn-outline btn-warning">{kategoriler[key]}</a></li>
+				<li>
+					<a href={"/kategori/" + key} target="_self" class="rounded-lg btn-outline btn-warning">{kategoriler[key]}</a>
+				</li>
 			{/each}
 		</ul>
 	</div>
