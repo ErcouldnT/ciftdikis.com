@@ -43,7 +43,7 @@
 	<div class="navbar-start">
 		<div class="flex-1">
 			<a href="/" class="flex justify-center items-center p-10">
-				<img class="h-17" src="CDlogo.png" alt="Logo" />
+				<img class="h-17" src="/CDlogo.png" alt="Logo" />
 			</a>
 			<!-- <a href="/" class="btn btn-ghost normal-case text-xl">Çift Dikiş</a> -->
 		</div>

@@ -1,8 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { items } from '../stores';
 	import { onMount } from 'svelte';
-	import { user, isLoggedIn } from '../stores';
+	import { user, isLoggedIn, items } from '../stores';
 	import { allItems } from '../api/itemsApi?client';
 	import Footer from './lib/Footer.svelte';
 
