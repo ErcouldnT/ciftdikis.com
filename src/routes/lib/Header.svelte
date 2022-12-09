@@ -1,9 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
+	import Logo from './Logo.svelte';
 	import { shoppingCart, user, isLoggedIn } from '../../stores';
 	import { auth } from '../../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
-	import kategoriler from './kategoriler';
+	import kategoriler from '../config/kategoriler';
 
 	let toplamFiyat;
 
@@ -43,8 +44,11 @@
 	<div class="navbar-start">
 		<div class="flex-1">
 			<a href="/" class="flex justify-center items-center p-10">
-				<img class="h-17" src="/CDlogo.png" alt="Logo" />
+				<Logo />
 			</a>
+			<!-- <a href="/" class="flex justify-center items-center p-10">
+				<img class="h-17" src="/CDlogo.png" alt="Logo" />
+			</a> -->
 			<!-- <a href="/" class="btn btn-ghost normal-case text-xl">Çift Dikiş</a> -->
 		</div>
 	</div>
@@ -75,7 +79,9 @@
 			</li> -->
 			{#each Object.keys(kategoriler) as key}
 				<li>
-					<a href={"/kategori/" + key} target="_self" class="rounded-lg btn-outline btn-warning">{kategoriler[key]}</a>
+					<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-outline btn-warning"
+						>{kategoriler[key]}</a
+					>
 				</li>
 			{/each}
 		</ul>

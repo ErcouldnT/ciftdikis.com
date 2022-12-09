@@ -6,7 +6,6 @@ export default {
 	eşofman: 'Eşofman',
 	kapri: 'Kapri',
 	mont: 'Mont',
-	smokin: 'Takım Elbise & Smokin'
+	smokin: 'Takım Elbise & Smokin',
+	// ayakkabı: 'Ayakkabı',
 };
-
-// Sadece sağ taraftaki isimleri değiştirebilirsin.

@@ -5,7 +5,7 @@
 	import { itemCreator } from '../../api/itemsApi';
 	import { storage } from '../../firebase?client';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
-	import kategoriler from '../lib/kategoriler';
+	import kategoriler from '../config/kategoriler';
 
 	let isim;
 	let açıklama;

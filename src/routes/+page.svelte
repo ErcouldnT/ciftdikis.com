@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { user, isLoggedIn, items } from '../stores';
 	import { allItems } from '../api/itemsApi?client';
-	import Footer from './lib/Footer.svelte';
+	import project from './config/project';
 
 	// let items;
 
@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-	<title>Çift Dikiş | Herkes Bir Çift İster...</title>
+	<title>{project.name} | {project.slogan}</title>
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
