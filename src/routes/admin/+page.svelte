@@ -1,27 +1,56 @@
 <script>
+	import { goto } from '$app/navigation';
 	import { itemCreator } from '../../api/itemsApi';
 	import { user } from '../../stores';
+	import { storage } from '../../firebase?client';
+	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
+	import { nanoid } from 'nanoid';
 
 	let isim;
 	let açıklama;
 	let fiyat;
-	let link;
+	let resim;
 
-	const databaseKaydet = async () => {
-		const slug = isim.trim().replace(' ', '-').toLowerCase();
-		await itemCreator(
-			slug,
-			isim,
-			açıklama,
-			{
-				displayName: $user.displayName,
-				email: $user.email,
-				photoURL: $user.photoURL
-			},
-			fiyat,
-			link
-		);
-    alert('Ürün kaydetme başarılı.');
+	let loading = false;
+
+	const databaseKaydet = () => {
+		try {
+			if (!resim) return;
+			resim = resim[0];
+
+			if (!isim) return;
+			if (!açıklama) return;
+			if (!fiyat) return;
+
+			loading = true;
+
+			const slug = isim.trim().replace(' ', '-').toLowerCase();
+			const imageRef = ref(storage, 'images/' + resim?.name + '-' + nanoid());
+			uploadBytes(imageRef, resim).then((snapshot) => {
+				getDownloadURL(snapshot.ref).then(async (link) => {
+					await itemCreator(
+						slug,
+						isim,
+						açıklama,
+						{
+							displayName: $user.displayName,
+							email: $user.email,
+							photoURL: $user.photoURL
+						},
+						fiyat,
+						link
+					);
+					alert('Ürün kaydetme başarılı.');
+					// loading = false;
+					goto('/');
+				});
+			});
+
+			// const resimAdı = resim[0]?.name;
+			// console.log(resim);
+		} catch (error) {
+			alert('BAŞARISIZ: ' + error?.message);
+		}
 	};
 </script>
 
@@ -55,12 +84,26 @@
 		/>
 	</div>
 	<div>
-		<input
-			bind:value={link}
-			type="text"
-			placeholder="Ürün resim link"
-			class="input input-bordered input-warning w-full max-w-xs"
-		/>
+		<div class="form-control w-full max-w-xs">
+			<label class="label">
+				<span class="label-text">Ürün resmi yükleyin</span>
+				<!-- <span class="label-text-alt">Alt label</span> -->
+			</label>
+			<input
+				bind:files={resim}
+				type="file"
+				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"
+			/>
+			<label class="label">
+				<!-- <span class="label-text-alt">Alt label</span> -->
+				<!-- <span class="label-text-alt">Alt label</span> -->
+			</label>
+		</div>
 	</div>
-	<button on:click={databaseKaydet} class="btn btn-outline btn-secondary">Kaydet</button>
+
+	{#if loading}
+		<progress class="progress w-56" />
+	{:else}
+		<button on:click={databaseKaydet} class="btn btn-outline btn-secondary">Kaydet</button>
+	{/if}
 </div>
