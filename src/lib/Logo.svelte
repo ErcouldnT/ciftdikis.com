@@ -5,7 +5,7 @@
 </script>
 
 <div class="flex flex-col gap-2 text-primary">
-	<div class="caption text-6xl">{project.name}</div>
+	<div class="caption text-center text-6xl">{project.name}</div>
 	<div class="slogan text-center text-xl">{project.slogan}</div>
 </div>
 

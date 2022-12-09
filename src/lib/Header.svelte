@@ -53,30 +53,15 @@
 		</div>
 	</div>
 	<div class="navbar-center">
-		<ul class="menu menu-horizontal p-0 m-3">
-			<!-- <li tabindex="0">
-				<a class="btn btn-outline btn-warning rounded-lg">
-					Kategoriler
-					<svg
-						class="fill-current"
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
-					>
-				</a>
-				<ul class="p-2 z-10 rounded-lg bg-white w-full border">
-					<li><a>T-shirt</a></li>
-					<li><a>Sweatshirt</a></li>
-					<li><a>Kazak</a></li>
-					<li><a>Gömlek</a></li>
-					<li><a>Eşofman</a></li>
-					<li><a>Kapri</a></li>
-					<li><a>Mont</a></li>
-					<li><a>Takım Elbise & Smokin</a></li>
-				</ul>
-			</li> -->
+		<div class="dropdown lg:hidden p-5">
+			<label tabindex="0" class="btn btn-primary m-1">Kategoriler</label>
+			<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+				{#each Object.keys(kategoriler) as key}
+					<li><a href={'/kategori/' + key} target="_self">{kategoriler[key]}</a></li>
+				{/each}
+			</ul>
+		</div>
+		<ul class="menu menu-horizontal p-0 m-3 hidden lg:flex">
 			{#each Object.keys(kategoriler) as key}
 				<li>
 					<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-outline btn-warning"
@@ -90,7 +75,7 @@
 		<!-- <div class="form-control">
 			<input type="text" placeholder="Ürün ara" class="input input-bordered" />
 		</div> -->
-		<div class="flex justify-center items-center gap-2">
+		<div class="flex justify-center items-center gap-2 mb-5">
 			<div class="dropdown dropdown-end">
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
