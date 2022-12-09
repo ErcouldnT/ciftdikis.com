@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { user, isLoggedIn, items } from '../stores';
 	import { allItems } from '../api/itemsApi?client';
-	import project from './config/project';
+	import project from '../config/project';
 
 	// let items;
 

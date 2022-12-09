@@ -1,8 +1,8 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Logo from './Logo.svelte';
-	import { shoppingCart, user, isLoggedIn } from '../../stores';
-	import { auth } from '../../firebase?client';
+	import { shoppingCart, user, isLoggedIn } from '../stores';
+	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
 	import kategoriler from '../config/kategoriler';
 
