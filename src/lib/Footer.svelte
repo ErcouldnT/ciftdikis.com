@@ -4,7 +4,7 @@
 
 <footer class="footer footer-center p-10 bg-primary text-primary-content mt-16">
 	<div>
-		<a href={'https://instagram.com/' + project.instagram}>
+		<a href={'https://instagram.com/' + project.instagram} target="_blank">
 			<img
 				class="w-12 h-12 m-1"
 				src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Instagram_simple_icon.svg"
