@@ -12,10 +12,11 @@ import {
 import { db } from '../firebase';
 
 // Change this to set()
-export const itemCreator = async (slug, productName, desc, seller, price, imgLink) => {
+export const itemCreator = async (slug, category, productName, desc, seller, price, imgLink) => {
 	try {
 		const docRef = await addDoc(collection(db, 'ürünler'), {
 			slug,
+			category,
 			productName,
 			desc,
 			seller,

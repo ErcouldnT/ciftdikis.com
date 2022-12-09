@@ -70,7 +70,7 @@
 	</div>
 	<div class="flex flex-col justify-center items-center m-5 gap-2 pt-5">
 		{#if total}
-			Sepet toplam <span class="font-bold">{total} ₺</span>
+			Sepet toplam <span class="font-bold">{total.toFixed(2)} ₺</span>
 		{/if}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- <div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div> -->

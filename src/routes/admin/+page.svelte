@@ -1,17 +1,24 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { itemCreator } from '../../api/itemsApi';
+	import { nanoid } from 'nanoid';
 	import { user } from '../../stores';
+	import { itemCreator } from '../../api/itemsApi';
 	import { storage } from '../../firebase?client';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
-	import { nanoid } from 'nanoid';
+	import kategoriler from '../lib/kategoriler';
 
 	let isim;
 	let açıklama;
 	let fiyat;
+	let seçilenKategori;
 	let resim;
 
 	let loading = false;
+
+	const kategoriSeç = (kategoriKey) => {
+		seçilenKategori = kategoriKey;
+		// console.log(seçilenKategori);
+	};
 
 	const databaseKaydet = () => {
 		try {
@@ -21,6 +28,7 @@
 			if (!isim) return;
 			if (!açıklama) return;
 			if (!fiyat) return;
+			if (!seçilenKategori) return;
 
 			loading = true;
 
@@ -30,6 +38,7 @@
 				getDownloadURL(snapshot.ref).then(async (link) => {
 					await itemCreator(
 						slug,
+						seçilenKategori,
 						isim,
 						açıklama,
 						{
@@ -59,6 +68,16 @@
 </svelte:head>
 
 <div class="flex justify-center items-center flex-col gap-5">
+	<div class="dropdown dropdown-right dropdown-hover">
+		<label tabindex="0" class="btn btn-secondary m-1"
+			>{seçilenKategori ? seçilenKategori : 'Ürün kategorisi seç'}</label
+		>
+		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+			{#each Object.keys(kategoriler) as kategoriKey}
+				<li><a on:click={() => {kategoriSeç(kategoriKey)}}>{kategoriler[kategoriKey]}</a></li>
+			{/each}
+		</ul>
+	</div>
 	<div>
 		<input
 			bind:value={isim}

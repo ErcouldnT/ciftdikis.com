@@ -3,6 +3,7 @@
 	import { shoppingCart, user, isLoggedIn } from '../../stores';
 	import { auth } from '../../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
+	import kategoriler from './kategoriler';
 
 	let toplamFiyat;
 
@@ -72,14 +73,9 @@
 					<li><a>Takım Elbise & Smokin</a></li>
 				</ul>
 			</li> -->
-			<li><a class="rounded-lg btn-outline btn-warning">T-shirt</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Sweatshirt</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Kazak</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Gömlek</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Eşofman</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Kapri</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Mont</a></li>
-			<li><a class="rounded-lg btn-outline btn-warning">Takım Elbise & Smokin</a></li>
+			{#each Object.keys(kategoriler) as key}
+				<li><a class="rounded-lg btn-outline btn-warning">{kategoriler[key]}</a></li>
+			{/each}
 		</ul>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
@@ -109,7 +105,7 @@
 				<div tabindex="0" class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
 					<div class="card-body">
 						<span class="font-bold text-lg">{$shoppingCart?.length} ürün</span>
-						<span class="text-info">Toplam: {toplamFiyat} ₺</span>
+						<span class="text-info">Toplam: {toplamFiyat.toFixed(2)} ₺</span>
 						<div class="card-actions">
 							<a href="/sepetim" class="btn btn-primary btn-block">Sepete git</a>
 						</div>
@@ -130,7 +126,7 @@
 					>
 						<li>
 							<a href="/admin" class="justify-between">
-								Admin paneli
+								Satıcı paneli
 								<span class="badge">Yeni</span>
 							</a>
 						</li>
