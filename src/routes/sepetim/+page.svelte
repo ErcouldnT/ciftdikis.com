@@ -46,7 +46,7 @@
 	};
 
 	const removeItem = (item) => {
-		const result = $shoppingCart.filter((product) => product.slug !== item.slug);
+		const result = $shoppingCart.filter((product) => product.id !== item.id);
 		shoppingCart.set(result);
 	};
 
