@@ -25,6 +25,7 @@
 			const res = await signInWithPopup(auth, provider);
 			$user = res.user;
 			$isLoggedIn = true;
+			window.location.reload();
 			// goto('/profile');
 		} catch (error) {
 			console.error(error);
@@ -36,6 +37,7 @@
 			await signOut(auth);
 			$user = {};
 			$isLoggedIn = false;
+			window.location.reload();
 			// goto('/');
 		} catch (error) {
 			console.error(error);
