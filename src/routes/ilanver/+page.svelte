@@ -2,11 +2,14 @@
 	import { goto } from '$app/navigation';
 	import { nanoid } from 'nanoid';
 	import { user } from '../../stores';
+	import { isAdmin } from '../../stores/user';
 	import { itemCreator } from '../../api/itemsApi';
 	import { storage } from '../../firebase?client';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
 	import kategoriler from '../../config/kategoriler';
 
+	const approved = $isAdmin;
+	
 	let isim;
 	let açıklama;
 	let fiyat;
@@ -37,6 +40,7 @@
 			uploadBytes(imageRef, resim).then((snapshot) => {
 				getDownloadURL(snapshot.ref).then(async (link) => {
 					await itemCreator(
+						approved,
 						slug,
 						seçilenKategori,
 						isim,
@@ -74,7 +78,13 @@
 		>
 		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
 			{#each Object.keys(kategoriler) as kategoriKey}
-				<li><a on:click={() => {kategoriSeç(kategoriKey)}}>{kategoriler[kategoriKey]}</a></li>
+				<li>
+					<a
+						on:click={() => {
+							kategoriSeç(kategoriKey);
+						}}>{kategoriler[kategoriKey]}</a
+					>
+				</li>
 			{/each}
 		</ul>
 	</div>
