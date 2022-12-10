@@ -3,6 +3,7 @@ export default {
 	sweatshirt: 'Sweatshirt',
 	kazak: 'Kazak',
 	gomlek: 'Gömlek',
+	pantolon: 'Pantolon',
 	esofman: 'Eşofman',
 	kapri: 'Kapri',
 	mont: 'Mont',

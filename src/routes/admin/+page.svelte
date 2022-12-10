@@ -37,6 +37,9 @@
 						<div>Ürün adı: {p.productName}</div>
 						<div>Satıcı: {p.seller.displayName}</div>
 						<div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div>
+						{#if p.tags}
+							<div>Etiketler: {p?.tags?.join(", ")}</div>
+						{/if}
 					</div>
 					<div class="flex flex-col gap-2">
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
