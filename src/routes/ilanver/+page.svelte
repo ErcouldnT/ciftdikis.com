@@ -24,6 +24,11 @@
 		// console.log(seçilenKategori);
 	};
 
+	const taglarıAyır = () => {
+		const tagler = tagsString.toLowerCase().trim().replace(/\s/g, '').split(',');
+		return tagler;
+	};
+
 	const databaseKaydet = () => {
 		try {
 			if (!resim) return;
@@ -68,11 +73,6 @@
 		} catch (error) {
 			alert('BAŞARISIZ: ' + error?.message);
 		}
-	};
-
-	const taglarıAyır = () => {
-		const tagler = tagsString.trim().replace(' ', '').split(',');
-		return tagler;
 	};
 </script>
 
