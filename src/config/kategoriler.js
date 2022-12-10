@@ -2,10 +2,10 @@ export default {
 	tshirt: 'T-shirt',
 	sweatshirt: 'Sweatshirt',
 	kazak: 'Kazak',
-	gömlek: 'Gömlek',
-	eşofman: 'Eşofman',
+	gomlek: 'Gömlek',
+	esofman: 'Eşofman',
 	kapri: 'Kapri',
 	mont: 'Mont',
-	smokin: 'Takım Elbise & Smokin',
+	"takim-elbise": 'Takım Elbise & Smokin',
 	// ayakkabı: 'Ayakkabı',
 };

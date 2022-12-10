@@ -12,7 +12,17 @@ import {
 import { db } from '../firebase';
 
 // Change this to set()
-export const itemCreator = async (approved, slug, category, productName, desc, seller, price, imgLink) => {
+export const itemCreator = async (
+	approved,
+	slug,
+	category,
+	productName,
+	desc,
+	seller,
+	price,
+	imgLink,
+	tags
+) => {
 	try {
 		const docRef = await addDoc(collection(db, 'ürünler'), {
 			approved,
@@ -24,7 +34,8 @@ export const itemCreator = async (approved, slug, category, productName, desc, s
 			price,
 			imgLink,
 			createdAt: serverTimestamp(),
-			comments: []
+			comments: [],
+			tags
 		});
 		console.log('Ürün kaydedildi: ', docRef.id);
 	} catch (e) {

@@ -9,8 +9,9 @@
 	import kategoriler from '../../config/kategoriler';
 
 	const approved = $isAdmin;
-	
+
 	let isim;
+	let tagsString;
 	let açıklama;
 	let fiyat;
 	let seçilenKategori;
@@ -33,6 +34,8 @@
 			if (!fiyat) return;
 			if (!seçilenKategori) return;
 
+			const tags = taglarıAyır();
+
 			loading = true;
 
 			const slug = isim.trim().replace(' ', '-').toLowerCase();
@@ -51,7 +54,8 @@
 							photoURL: $user.photoURL
 						},
 						fiyat,
-						link
+						link,
+						tags
 					);
 					alert('Ürün kaydetme başarılı.');
 					// loading = false;
@@ -64,6 +68,11 @@
 		} catch (error) {
 			alert('BAŞARISIZ: ' + error?.message);
 		}
+	};
+
+	const taglarıAyır = () => {
+		const tagler = tagsString.trim().replace(' ', '').split(',');
+		return tagler;
 	};
 </script>
 
@@ -93,6 +102,14 @@
 			bind:value={isim}
 			type="text"
 			placeholder="Ürün ismi"
+			class="input input-bordered input-warning w-full max-w-xs"
+		/>
+	</div>
+	<div>
+		<input
+			bind:value={tagsString}
+			type="text"
+			placeholder="kadın, erkek, çocuk"
 			class="input input-bordered input-warning w-full max-w-xs"
 		/>
 	</div>
