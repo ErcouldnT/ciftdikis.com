@@ -2,12 +2,16 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { user, isLoggedIn, items } from '../stores';
+	import { approvedProducts } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
 	import project from '../config/project';
 
 	onMount(async () => {
 		const itemsData = await allItems(); // Add that to store
 		$items = [...itemsData];
+		$approvedProducts = itemsData.filter((product) => {
+			return !product.approved || product.approved === true;
+		});
 	});
 
 	const goToProduct = (name) => {
@@ -20,7 +24,7 @@
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
-	{#each $items as item}
+	{#each $approvedProducts as item}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			on:click={goToProduct(item.productName)}
@@ -32,7 +36,7 @@
 				<p class="font-bold text-2xl">{item.price}₺</p>
 				<p>Satıcı: <span class="font-bold">{item.seller.displayName}</span></p>
 				<div class="card-actions justify-end">
-					<button class="btn btn-primary">İncele</button>
+					<button class="btn btn-primary">Ürüne git</button>
 				</div>
 			</div>
 		</div>

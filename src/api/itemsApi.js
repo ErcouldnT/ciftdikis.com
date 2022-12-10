@@ -10,11 +10,13 @@ import {
 	serverTimestamp
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { isAdmin } from '../stores/user';
 
 // Change this to set()
 export const itemCreator = async (slug, category, productName, desc, seller, price, imgLink) => {
 	try {
 		const docRef = await addDoc(collection(db, 'ürünler'), {
+			approved: isAdmin,
 			slug,
 			category,
 			productName,
