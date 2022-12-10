@@ -8,7 +8,6 @@
 
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { user, isLoggedIn, items } from '../../../stores';
 	import { allItems } from '../../../api/itemsApi?client';
 
 	onMount(async () => {

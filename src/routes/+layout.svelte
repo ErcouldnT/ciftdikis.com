@@ -9,7 +9,7 @@
 	import { auth, db } from '../firebase?client';
 	import { user, isLoggedIn } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
-	import { approvedProducts } from '../stores/products';
+	import { approvedProducts, allProducts } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
 
 	const admins = [];
@@ -47,7 +47,8 @@
 		});
 
 		const itemsData = await allItems();
-		// $items = [...itemsData];
+		const all = [...itemsData];
+		allProducts.set(all);
 		$approvedProducts = itemsData.filter((product) => {
 			return product.approved === true;
 		});
