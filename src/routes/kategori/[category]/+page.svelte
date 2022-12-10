@@ -15,7 +15,7 @@
 		const itemsData = await allItems(); // Add that to store
 		const bütünÜrünler = [...itemsData];
 		itemsList = bütünÜrünler.filter((item) => {
-			return item.category === categoryKey;
+			return item.category === categoryKey && item.approved === true;
 		});
 		// console.log(itemsList);
 	});

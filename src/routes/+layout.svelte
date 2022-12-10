@@ -9,6 +9,8 @@
 	import { auth, db } from '../firebase?client';
 	import { user, isLoggedIn } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
+	import { approvedProducts } from '../stores/products';
+	import { allItems } from '../api/itemsApi?client';
 
 	const admins = [];
 	const sellers = [];
@@ -42,6 +44,12 @@
 			if (seller.email === $user.email) {
 				isSeller.set(true);
 			}
+		});
+
+		const itemsData = await allItems();
+		// $items = [...itemsData];
+		$approvedProducts = itemsData.filter((product) => {
+			return product.approved === true;
 		});
 	});
 </script>

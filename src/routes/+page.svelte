@@ -1,18 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { user, isLoggedIn, items } from '../stores';
+	// import { onMount } from 'svelte';
+	// import { user, isLoggedIn, items } from '../stores';
 	import { approvedProducts } from '../stores/products';
-	import { allItems } from '../api/itemsApi?client';
+	// import { allItems } from '../api/itemsApi?client';
 	import project from '../config/project';
-
-	onMount(async () => {
-		const itemsData = await allItems(); // Add that to store
-		$items = [...itemsData];
-		$approvedProducts = itemsData.filter((product) => {
-			return !product.approved || product.approved === true;
-		});
-	});
 
 	const goToProduct = (name) => {
 		goto(name.trim().replace(' ', '-').toLowerCase());
