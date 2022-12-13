@@ -49,9 +49,10 @@
 		const itemsData = await allItems();
 		const all = [...itemsData];
 		allProducts.set(all);
-		$approvedProducts = itemsData.filter((product) => {
+		const newList = itemsData.filter((product) => {
 			return product.approved === true;
 		});
+		approvedProducts.set(newList);
 	});
 </script>
 

@@ -1,14 +1,26 @@
 <script>
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	// import { onMount } from 'svelte';
 	// import { user, isLoggedIn, items } from '../stores';
 	import { approvedProducts } from '../stores/products';
-	// import { allItems } from '../api/itemsApi?client';
+	import { allItems } from '../api/itemsApi?client';
 	import project from '../config/project';
+
+	// console.log($approvedProducts);
 
 	const goToProduct = (name) => {
 		goto(name.trim().replace(' ', '-').toLowerCase());
 	};
+
+	onMount(async () => {
+		const itemsData = await allItems();
+		// const all = [...itemsData];
+		// allProducts.set(all);
+		const newList = itemsData.filter((product) => {
+			return product.approved === true;
+		});
+		approvedProducts.set(newList);
+	});
 </script>
 
 <svelte:head>
@@ -16,7 +28,7 @@
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
-	{#each $approvedProducts as item}
+	{#each $approvedProducts as item (item.slug)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			on:click={goToProduct(item.productName)}
