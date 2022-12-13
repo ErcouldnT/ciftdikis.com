@@ -1,11 +1,15 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { shoppingCart, user, isLoggedIn } from '../../stores';
-	import { auth } from '../../firebase?client';
+	import Logo from './Logo.svelte';
+	import { shoppingCart, user, isLoggedIn } from '../stores';
+	import { isAdmin, isSeller } from '../stores/user';
+	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
-	import kategoriler from './kategoriler';
+	import kategoriler from '../config/kategoriler';
 
 	let toplamFiyat;
+
+	// console.log($user);
 
 	$: {
 		toplamFiyat = 0;
@@ -21,6 +25,7 @@
 			const res = await signInWithPopup(auth, provider);
 			$user = res.user;
 			$isLoggedIn = true;
+			window.location.reload();
 			// goto('/profile');
 		} catch (error) {
 			console.error(error);
@@ -32,7 +37,8 @@
 			await signOut(auth);
 			$user = {};
 			$isLoggedIn = false;
-			// goto('/');
+			// window.location.reload();
+			goto('/');
 		} catch (error) {
 			console.error(error);
 		}
@@ -43,39 +49,30 @@
 	<div class="navbar-start">
 		<div class="flex-1">
 			<a href="/" class="flex justify-center items-center p-10">
-				<img class="h-17" src="CDlogo.png" alt="Logo" />
+				<Logo />
 			</a>
+			<!-- <a href="/" class="flex justify-center items-center p-10">
+				<img class="h-17" src="/CDlogo.png" alt="Logo" />
+			</a> -->
 			<!-- <a href="/" class="btn btn-ghost normal-case text-xl">Çift Dikiş</a> -->
 		</div>
 	</div>
 	<div class="navbar-center">
-		<ul class="menu menu-horizontal p-0 m-3">
-			<!-- <li tabindex="0">
-				<a class="btn btn-outline btn-warning rounded-lg">
-					Kategoriler
-					<svg
-						class="fill-current"
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg
-					>
-				</a>
-				<ul class="p-2 z-10 rounded-lg bg-white w-full border">
-					<li><a>T-shirt</a></li>
-					<li><a>Sweatshirt</a></li>
-					<li><a>Kazak</a></li>
-					<li><a>Gömlek</a></li>
-					<li><a>Eşofman</a></li>
-					<li><a>Kapri</a></li>
-					<li><a>Mont</a></li>
-					<li><a>Takım Elbise & Smokin</a></li>
-				</ul>
-			</li> -->
-			{#each Object.keys(kategoriler) as key}
+		<div class="dropdown lg:hidden p-5">
+			<label tabindex="0" class="btn btn-primary m-1">Kategoriler</label>
+			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+			<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+				{#each Object.keys(kategoriler) as key (key)}
+					<li><a href={'/kategori/' + key} target="_self">{kategoriler[key]}</a></li>
+				{/each}
+			</ul>
+		</div>
+		<ul class="menu menu-horizontal p-0 m-3 hidden lg:flex">
+			{#each Object.keys(kategoriler) as key (key)}
 				<li>
-					<a href={"/kategori/" + key} target="_self" class="rounded-lg btn-outline btn-warning">{kategoriler[key]}</a>
+					<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-outline btn-warning"
+						>{kategoriler[key]}</a
+					>
 				</li>
 			{/each}
 		</ul>
@@ -84,7 +81,7 @@
 		<!-- <div class="form-control">
 			<input type="text" placeholder="Ürün ara" class="input input-bordered" />
 		</div> -->
-		<div class="flex justify-center items-center gap-2">
+		<div class="flex justify-center items-center gap-2 mb-5">
 			<div class="dropdown dropdown-end">
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
@@ -127,15 +124,37 @@
 						class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li>
-							<a href="/admin" class="justify-between">
-								Satıcı paneli
-								<span class="badge">Yeni</span>
-							</a>
+							<a
+								><span class="font-bold text-primary"
+									>Merhaba, {$user.displayName.split(' ')[0]}!</span
+								></a
+							>
 						</li>
+						{#if $isAdmin}
+							<li>
+								<a href="/admin" class="justify-between">
+									Yönetim
+									<span class="badge badge-error">Admin</span>
+								</a>
+							</li>
+						{/if}
+						{#if $isSeller || $isAdmin}
+							<li>
+								<a href="/ilanver" class="justify-between">
+									İlan ver
+									<span class="badge badge-primary">Satıcı</span>
+								</a>
+							</li>
+							<li>
+								<a href="/ilanlarim" class="justify-between">
+									İlanlarım
+									<span class="badge badge-primary">Satıcı</span>
+								</a>
+							</li>
+						{/if}
 						<li><a href="/bilgilerim">Kullanıcı bilgilerim</a></li>
 						<li><a href="/siparislerim">Siparişlerim</a></li>
 						<li><a href="/favorilerim">Favorilerim</a></li>
-						<li><a href="/ilanlarim">İlanlarım</a></li>
 						<li on:click={logout}><a>Çıkış</a></li>
 					</ul>
 				</div>

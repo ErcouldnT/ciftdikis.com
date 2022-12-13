@@ -6,47 +6,26 @@ import {
 	// setDoc,
 	addDoc,
 	// getDoc,
-	getDocs,
-	serverTimestamp
+	getDocs
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
 // Change this to set()
-export const itemCreator = async (
-	approved,
-	slug,
-	category,
-	productName,
-	desc,
-	seller,
-	price,
-	imgLink,
-	tags
-) => {
+export const sellerCreator = async (email) => {
 	try {
-		const docRef = await addDoc(collection(db, 'ürünler'), {
-			approved,
-			slug,
-			category,
-			productName,
-			desc,
-			seller,
-			price,
-			imgLink,
-			createdAt: serverTimestamp(),
-			comments: [],
-			tags
+		const docRef = await addDoc(collection(db, 'satıcılar'), {
+			email
 		});
-		console.log('Ürün kaydedildi: ', docRef.id);
+		console.log('Satıcı kaydedildi: ', docRef.id);
 	} catch (e) {
-		console.error('Ürün kaydı başarısız: ', e);
+		console.error('Satıcı kaydı başarısız: ', e);
 	}
 };
 
-export const allItems = async () => {
+export const allSellers = async () => {
 	let items = [];
 
-	const querySnapshot = await getDocs(collection(db, 'ürünler'));
+	const querySnapshot = await getDocs(collection(db, 'satıcılar'));
 	querySnapshot.forEach((doc) => {
 		items.push(doc.data());
 	});
@@ -66,12 +45,12 @@ export const allItems = async () => {
 // 	}
 // };
 
-export const getItem = async (slug) => {
+export const getSeller = async (email) => {
 	let items = [];
-	const itemsRef = collection(db, 'ürünler');
+	const itemsRef = collection(db, 'satıcılar');
 
 	// Create a query against the collection.
-	const q = query(itemsRef, where('slug', '==', slug));
+	const q = query(itemsRef, where('email', '==', email));
 
 	const querySnapshot = await getDocs(q);
 	querySnapshot.forEach((doc) => {
@@ -81,7 +60,3 @@ export const getItem = async (slug) => {
 
 	return items[0];
 };
-
-// export const addContent = async (slug, content, writer) => {
-// 	return null;
-// };

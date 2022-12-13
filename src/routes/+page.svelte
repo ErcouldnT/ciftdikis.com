@@ -1,29 +1,34 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { items } from '../stores';
 	import { onMount } from 'svelte';
-	import { user, isLoggedIn } from '../stores';
+	import { goto } from '$app/navigation';
+	// import { user, isLoggedIn, items } from '../stores';
+	import { approvedProducts } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
-	import Footer from './lib/Footer.svelte';
+	import project from '../config/project';
 
-	// let items;
-
-	onMount(async () => {
-		const itemsData = await allItems(); // Add that to store
-		$items = [...itemsData];
-	});
+	// console.log($approvedProducts);
 
 	const goToProduct = (name) => {
 		goto(name.trim().replace(' ', '-').toLowerCase());
 	};
+
+	onMount(async () => {
+		const itemsData = await allItems();
+		// const all = [...itemsData];
+		// allProducts.set(all);
+		const newList = itemsData.filter((product) => {
+			return product.approved === true;
+		});
+		approvedProducts.set(newList);
+	});
 </script>
 
 <svelte:head>
-	<title>Çift Dikiş | Herkes Bir Çift İster...</title>
+	<title>{project.name} | {project.slogan}</title>
 </svelte:head>
 
 <div class="flex flex-wrap gap-5 justify-center items-center">
-	{#each $items as item}
+	{#each $approvedProducts as item (item.slug)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			on:click={goToProduct(item.productName)}
@@ -35,7 +40,7 @@
 				<p class="font-bold text-2xl">{item.price}₺</p>
 				<p>Satıcı: <span class="font-bold">{item.seller.displayName}</span></p>
 				<div class="card-actions justify-end">
-					<button class="btn btn-primary">İncele</button>
+					<button class="btn btn-primary">Ürüne git</button>
 				</div>
 			</div>
 		</div>

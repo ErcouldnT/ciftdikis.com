@@ -1,4 +1,5 @@
 <script>
+	// import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { shoppingCart } from '../../stores';
 
@@ -46,7 +47,7 @@
 	};
 
 	const removeItem = (item) => {
-		const result = $shoppingCart.filter((product) => product.slug !== item.slug);
+		const result = $shoppingCart.filter((product) => product.id !== item.id);
 		shoppingCart.set(result);
 	};
 
@@ -76,7 +77,7 @@
 		<!-- <div on:click={nextStep} class="btn btn-warning">Sonraki adıma İlerle: Adres girin</div> -->
 	</div>
 {:else}
-	<p class="text-center text-lg">Sepetinizde ürün bulunmamaktadır.</p>
+	<p class="text-center text-lg h-96">Sepetinizde ürün bulunmamaktadır.</p>
 {/if}
 
 {#if cartStep && $shoppingCart.length}

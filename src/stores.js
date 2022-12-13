@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-export const items = writable([]);
+export const items = writable([]);  // Bütün ürünleri burada yakala.
 
 // const stored = localStorage.cart;
 

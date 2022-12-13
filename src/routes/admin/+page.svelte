@@ -1,128 +1,98 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { nanoid } from 'nanoid';
-	import { user } from '../../stores';
-	import { itemCreator } from '../../api/itemsApi';
-	import { storage } from '../../firebase?client';
-	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
-	import kategoriler from '../lib/kategoriler';
+	// import moment from 'moment';
+	import { onMount } from 'svelte';
+	// import { db } from '../../firebase?client';
+	import { allProducts } from '../../stores/products';
+	import { allItems } from '../../api/itemsApi?client';
+	import { allSellers, sellerCreator } from '../../api/sellersApi';
 
-	let isim;
-	let açıklama;
-	let fiyat;
-	let seçilenKategori;
-	let resim;
+	let satıcılar = [];
+	let satıcıEmail;
 
-	let loading = false;
-
-	const kategoriSeç = (kategoriKey) => {
-		seçilenKategori = kategoriKey;
-		// console.log(seçilenKategori);
+	const satıcılarıAl = async () => {
+		const sellersData = await allSellers();
+		satıcılar = [...sellersData];
 	};
 
-	const databaseKaydet = () => {
-		try {
-			if (!resim) return;
-			resim = resim[0];
+	const satıcıYarat = async (email) => {
+		await sellerCreator(email);
+		window.location.reload();
+	};
 
-			if (!isim) return;
-			if (!açıklama) return;
-			if (!fiyat) return;
-			if (!seçilenKategori) return;
+	satıcılarıAl();
 
-			loading = true;
+	onMount(async () => {
+		const itemsData = await allItems();
+		const all = [...itemsData];
+		allProducts.set(all);
+	});
 
-			const slug = isim.trim().replace(' ', '-').toLowerCase();
-			const imageRef = ref(storage, 'images/' + resim?.name + '-' + nanoid());
-			uploadBytes(imageRef, resim).then((snapshot) => {
-				getDownloadURL(snapshot.ref).then(async (link) => {
-					await itemCreator(
-						slug,
-						seçilenKategori,
-						isim,
-						açıklama,
-						{
-							displayName: $user.displayName,
-							email: $user.email,
-							photoURL: $user.photoURL
-						},
-						fiyat,
-						link
-					);
-					alert('Ürün kaydetme başarılı.');
-					// loading = false;
-					goto('/');
-				});
-			});
+	const ürüneOnayVer = (product) => {
+		// console.log(product);
+	};
 
-			// const resimAdı = resim[0]?.name;
-			// console.log(resim);
-		} catch (error) {
-			alert('BAŞARISIZ: ' + error?.message);
-		}
+	const ilanıKaldır = (product) => {
+		// console.log(product);
 	};
 </script>
 
-<svelte:head>
-	<title>Çift Dikiş | Admin Paneli</title>
-</svelte:head>
+<div class="text-center">
+	<div class="p-5 text-xl">Yönetim Merkezi</div>
 
-<div class="flex justify-center items-center flex-col gap-5">
-	<div class="dropdown dropdown-right dropdown-hover">
-		<label tabindex="0" class="btn btn-secondary m-1"
-			>{seçilenKategori ? seçilenKategori : 'Ürün kategorisi seç'}</label
-		>
-		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-			{#each Object.keys(kategoriler) as kategoriKey}
-				<li><a on:click={() => {kategoriSeç(kategoriKey)}}>{kategoriler[kategoriKey]}</a></li>
+	<div class="flex flex-row justify-center gap-5">
+		<div class="w-1/2 border p-5 rounded">
+			<div class="p-2 font-bold">Ürün onaylama</div>
+			{#each $allProducts.filter((product) => {
+				return product.approved === false;
+			}) as p}
+				<div class="flex flex-row justify-center items-center gap-5 p-2">
+					<img class="rounded-xl h-32 mr-2" src={p.imgLink} alt="" />
+					<div>
+						<div>Ürün adı: {p.productName}</div>
+						<div>Satıcı: {p.seller.displayName}</div>
+						<!-- <div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div> -->
+						{#if p.tags}
+							<div>Etiketler: {p?.tags?.join(', ')}</div>
+						{/if}
+					</div>
+					<div class="flex flex-col gap-2">
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div
+							on:click={() => {
+								ürüneOnayVer(p);
+							}}
+							class="btn btn-warning btn-outline"
+						>
+							Onay ver
+						</div>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div
+							on:click={() => {
+								ilanıKaldır(p);
+							}}
+							class="btn btn-error btn-outline"
+						>
+							Sil
+						</div>
+					</div>
+				</div>
 			{/each}
-		</ul>
-	</div>
-	<div>
-		<input
-			bind:value={isim}
-			type="text"
-			placeholder="Ürün ismi"
-			class="input input-bordered input-warning w-full max-w-xs"
-		/>
-	</div>
-	<div>
-		<input
-			bind:value={açıklama}
-			type="text"
-			placeholder="Ürün açıklaması"
-			class="input input-bordered input-warning w-full max-w-xs"
-		/>
-	</div>
-	<div>
-		<input
-			bind:value={fiyat}
-			type="text"
-			placeholder="Ürün fiyatı"
-			class="input input-bordered input-warning w-full max-w-xs"
-		/>
-	</div>
-	<div>
-		<div class="form-control w-full max-w-xs">
-			<label class="label">
-				<span class="label-text">Ürün resmi yükleyin</span>
-				<!-- <span class="label-text-alt">Alt label</span> -->
-			</label>
-			<input
-				bind:files={resim}
-				type="file"
-				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"
-			/>
-			<label class="label">
-				<!-- <span class="label-text-alt">Alt label</span> -->
-				<!-- <span class="label-text-alt">Alt label</span> -->
-			</label>
+		</div>
+		<div class="w-1/2 border p-5 rounded">
+			<div class="p-2 font-bold">Satıcı ekle</div>
+			<div>
+				<input bind:value={satıcıEmail} class="w-1/2 rounded" type="text" placeholder="Satıcı emailini girin" />
+				<div on:click={() => {satıcıYarat(satıcıEmail)}} class="btn btn-warning btn-outline mt-5">Kaydet</div>
+			</div>
+			<div class="flex flex-col justify-center items-center gap-2">
+				<div class="p-2 font-bold mt-5">Satıcılar</div>
+				{#each satıcılar as satıcı}
+					<div class="flex flex-row justify-center items-center gap-10">
+						<div>{satıcı.email}</div>
+						<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
+					</div>
+				{/each}
+			</div>
 		</div>
 	</div>
-
-	{#if loading}
-		<progress class="progress w-56" />
-	{:else}
-		<button on:click={databaseKaydet} class="btn btn-outline btn-secondary">Kaydet</button>
-	{/if}
 </div>
