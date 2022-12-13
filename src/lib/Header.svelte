@@ -37,8 +37,8 @@
 			await signOut(auth);
 			$user = {};
 			$isLoggedIn = false;
-			window.location.reload();
-			// goto('/');
+			// window.location.reload();
+			goto('/');
 		} catch (error) {
 			console.error(error);
 		}
