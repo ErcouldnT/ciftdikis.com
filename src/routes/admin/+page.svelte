@@ -1,18 +1,15 @@
 <script>
-	// import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
 	import moment from 'moment';
 	// import { user, isLoggedIn, items } from '../../stores';
-	// import { allItems } from '../api/itemsApi?client';
+	import { allItems } from '../../api/itemsApi?client';
 
-	// onMount(async () => {
-	// 	const itemsData = await allItems(); // Add that to store
-	// 	const products = [...itemsData];
-	// });
-
-	const controlProducts = $allProducts.filter((product) => {
-		return product.approved === false;
+	onMount(async () => {
+		const itemsData = await allItems();
+		const all = [...itemsData];
+		allProducts.set(all);
 	});
 
 	const ürüneOnayVer = (product) => {
@@ -30,7 +27,9 @@
 	<div class="flex flex-row justify-center gap-5">
 		<div class="w-1/2 border p-5 rounded">
 			<div class="p-2 font-bold">Ürün onaylama</div>
-			{#each controlProducts as p}
+			{#each $allProducts.filter((product) => {
+				return product.approved === false;
+			}) as p}
 				<div class="flex flex-row justify-center items-center gap-5 p-2">
 					<img class="rounded-xl h-32 mr-2" src={p.imgLink} alt="" />
 					<div>
@@ -38,7 +37,7 @@
 						<div>Satıcı: {p.seller.displayName}</div>
 						<div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div>
 						{#if p.tags}
-							<div>Etiketler: {p?.tags?.join(", ")}</div>
+							<div>Etiketler: {p?.tags?.join(', ')}</div>
 						{/if}
 					</div>
 					<div class="flex flex-col gap-2">
