@@ -1,11 +1,20 @@
 <script>
+	// import moment from 'moment';
 	import { onMount } from 'svelte';
-	import { db } from '../../firebase?client';
+	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
-	import moment from 'moment';
-	// import { user, isLoggedIn, items } from '../../stores';
 	import { allItems } from '../../api/itemsApi?client';
+	import { allSellers } from '../../api/sellersApi';
 
+	let satıcılar = [];
+
+	const satıcılarıAl = async () => {
+		const sellersData = await allSellers();
+		satıcılar = [...sellersData];
+	};
+
+	satıcılarıAl();
+	
 	onMount(async () => {
 		const itemsData = await allItems();
 		const all = [...itemsData];
@@ -35,7 +44,7 @@
 					<div>
 						<div>Ürün adı: {p.productName}</div>
 						<div>Satıcı: {p.seller.displayName}</div>
-						<div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div>
+						<!-- <div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div> -->
 						{#if p.tags}
 							<div>Etiketler: {p?.tags?.join(', ')}</div>
 						{/if}
@@ -71,18 +80,12 @@
 			</div>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<div class="p-2 font-bold mt-5">Satıcılar</div>
-				<div class="flex flex-row justify-center items-center gap-10">
-					<div>Örnek kullanıcı #1</div>
-					<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
-				</div>
-				<div class="flex flex-row justify-center items-center gap-10">
-					<div>Örnek kullanıcı #2</div>
-					<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
-				</div>
-				<div class="flex flex-row justify-center items-center gap-10">
-					<div>Örnek kullanıcı #3</div>
-					<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
-				</div>
+				{#each satıcılar as satıcı}
+					<div class="flex flex-row justify-center items-center gap-10">
+						<div>{satıcı.email}</div>
+						<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
+					</div>
+				{/each}
 			</div>
 		</div>
 	</div>
