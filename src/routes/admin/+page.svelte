@@ -4,17 +4,23 @@
 	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
 	import { allItems } from '../../api/itemsApi?client';
-	import { allSellers } from '../../api/sellersApi';
+	import { allSellers, sellerCreator } from '../../api/sellersApi';
 
 	let satıcılar = [];
+	let satıcıEmail;
 
 	const satıcılarıAl = async () => {
 		const sellersData = await allSellers();
 		satıcılar = [...sellersData];
 	};
 
+	const satıcıYarat = async (email) => {
+		await sellerCreator(email);
+		window.location.reload();
+	};
+
 	satıcılarıAl();
-	
+
 	onMount(async () => {
 		const itemsData = await allItems();
 		const all = [...itemsData];
@@ -75,8 +81,8 @@
 		<div class="w-1/2 border p-5 rounded">
 			<div class="p-2 font-bold">Satıcı ekle</div>
 			<div>
-				<input class="w-1/2 rounded" type="text" placeholder="Satıcı emailini girin" />
-				<div class="btn btn-warning btn-outline mt-5">Kaydet</div>
+				<input bind:value={satıcıEmail} class="w-1/2 rounded" type="text" placeholder="Satıcı emailini girin" />
+				<div on:click={() => {satıcıYarat(satıcıEmail)}} class="btn btn-warning btn-outline mt-5">Kaydet</div>
 			</div>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<div class="p-2 font-bold mt-5">Satıcılar</div>
