@@ -4,7 +4,8 @@
 	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
 	import { allItems } from '../../api/itemsApi?client';
-	import { allSellers, sellerCreator } from '../../api/sellersApi';
+	import { allSellers, sellerCreator, removeSeller } from '../../api/sellersApi';
+	import { approveProduct, removeProduct } from '../../api/itemsApi';
 
 	let satıcılar = [];
 	let satıcıEmail;
@@ -26,14 +27,6 @@
 		const all = [...itemsData];
 		allProducts.set(all);
 	});
-
-	const ürüneOnayVer = (product) => {
-		// console.log(product);
-	};
-
-	const ilanıKaldır = (product) => {
-		// console.log(product);
-	};
 </script>
 
 <div class="text-center">
@@ -58,8 +51,9 @@
 					<div class="flex flex-col gap-2">
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<div
-							on:click={() => {
-								ürüneOnayVer(p);
+							on:click={async () => {
+								await approveProduct(p.id);
+								window.location.reload();
 							}}
 							class="btn btn-warning btn-outline"
 						>
@@ -67,8 +61,9 @@
 						</div>
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<div
-							on:click={() => {
-								ilanıKaldır(p);
+							on:click={async () => {
+								await removeProduct(p.id);
+								window.location.reload();
 							}}
 							class="btn btn-error btn-outline"
 						>
@@ -81,15 +76,35 @@
 		<div class="w-1/2 border p-5 rounded">
 			<div class="p-2 font-bold">Satıcı ekle</div>
 			<div>
-				<input bind:value={satıcıEmail} class="w-1/2 rounded" type="text" placeholder="Satıcı emailini girin" />
-				<div on:click={() => {satıcıYarat(satıcıEmail)}} class="btn btn-warning btn-outline mt-5">Kaydet</div>
+				<input
+					bind:value={satıcıEmail}
+					class="w-1/2 rounded"
+					type="text"
+					placeholder="Satıcı emailini girin"
+				/>
+				<div
+					on:click={() => {
+						satıcıYarat(satıcıEmail);
+					}}
+					class="btn btn-warning btn-outline mt-5"
+				>
+					Kaydet
+				</div>
 			</div>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<div class="p-2 font-bold mt-5">Satıcılar</div>
 				{#each satıcılar as satıcı}
 					<div class="flex flex-row justify-center items-center gap-10">
 						<div>{satıcı.email}</div>
-						<div class="btn btn-error btn-outline">Satıcıyı iptal et</div>
+						<div
+							on:click={async () => {
+								await removeSeller(satıcı.id);
+								window.location.reload();
+							}}
+							class="btn btn-error btn-outline"
+						>
+							Satıcıyı iptal et
+						</div>
 					</div>
 				{/each}
 			</div>
