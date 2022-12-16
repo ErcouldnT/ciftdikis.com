@@ -74,7 +74,7 @@
 					>
 				</button>
 			</div>
-			<div class="mx-1 italic font-light text-sm">kadın, erkek, çocuk</div>
+			<div class="mx-1 italic font-light text-sm">kadın, erkek, çocuk, bebek</div>
 		</div>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
