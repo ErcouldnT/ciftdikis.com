@@ -6,7 +6,9 @@ import {
 	// setDoc,
 	addDoc,
 	// getDoc,
-	getDocs
+	getDocs,
+	doc,
+	deleteDoc
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -25,10 +27,12 @@ export const sellerCreator = async (email) => {
 export const allSellers = async () => {
 	let items = [];
 
-	const querySnapshot = await getDocs(collection(db, 'satıcılar'));
-	querySnapshot.forEach((doc) => {
-		items.push(doc.data());
+	const data = await getDocs(collection(db, 'satıcılar'));
+	data.forEach((doc) => {
+		items.push({ ...doc.data(), id: doc.id });
 	});
+
+	// data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
 	return items;
 };
@@ -45,6 +49,7 @@ export const allSellers = async () => {
 // 	}
 // };
 
+// TODO: id bazlı sorgulama yaz.
 export const getSeller = async (email) => {
 	let items = [];
 	const itemsRef = collection(db, 'satıcılar');
@@ -55,8 +60,12 @@ export const getSeller = async (email) => {
 	const querySnapshot = await getDocs(q);
 	querySnapshot.forEach((doc) => {
 		// doc.data() is never undefined for query doc snapshots
-		items.push(doc.data());
+		items.push({ ...doc.data(), id: doc.id });
 	});
 
 	return items[0];
+};
+
+export const removeSeller = async (id) => {
+	await deleteDoc(doc(db, 'satıcılar', id));
 };

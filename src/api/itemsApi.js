@@ -7,7 +7,9 @@ import {
 	addDoc,
 	// getDoc,
 	getDocs,
-	serverTimestamp
+	doc,
+	updateDoc,
+	deleteDoc
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -33,7 +35,7 @@ export const itemCreator = async (
 			seller,
 			price,
 			imgLink,
-			createdAt: serverTimestamp(),
+			createdAt: Date.now(),
 			comments: [],
 			tags
 		});
@@ -48,7 +50,7 @@ export const allItems = async () => {
 
 	const querySnapshot = await getDocs(collection(db, 'ürünler'));
 	querySnapshot.forEach((doc) => {
-		items.push(doc.data());
+		items.push({ ...doc.data(), id: doc.id });
 	});
 
 	return items;
@@ -76,7 +78,7 @@ export const getItem = async (slug) => {
 	const querySnapshot = await getDocs(q);
 	querySnapshot.forEach((doc) => {
 		// doc.data() is never undefined for query doc snapshots
-		items.push(doc.data());
+		items.push({ ...doc.data(), id: doc.id });
 	});
 
 	return items[0];
@@ -85,3 +87,15 @@ export const getItem = async (slug) => {
 // export const addContent = async (slug, content, writer) => {
 // 	return null;
 // };
+
+export const approveProduct = async (id) => {
+	const productRef = doc(db, 'ürünler', id);
+	await updateDoc(productRef, {
+		approved: true,
+		approvedAt: Date.now()
+	});
+};
+
+export const removeProduct = async (id) => {
+	await deleteDoc(doc(db, 'ürünler', id));
+};
