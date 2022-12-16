@@ -8,7 +8,9 @@
 </script>
 
 <div class="text-center">
-	<div class="mb-3 font-bold">İlanlarım</div>
+	<div class="text-center text-xl">
+		İlanlarım
+	</div>
 
 	<div class="grid grid-cols-2 gap-4 w-1/2 m-auto">
 		{#each $allProducts.filter((p) => {

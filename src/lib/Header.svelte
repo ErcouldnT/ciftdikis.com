@@ -45,9 +45,9 @@
 <div class="navbar bg-base-100 flex-col md:flex-row">
 	<div class="navbar-start">
 		<div class="flex-1">
-			<a href="/" class="flex justify-center items-center p-10">
+			<div class="flex justify-center items-center p-10">
 				<Logo />
-			</a>
+			</div>
 			<!-- <a href="/" class="flex justify-center items-center p-10">
 				<img class="h-17" src="/CDlogo.png" alt="Logo" />
 			</a> -->
@@ -74,6 +74,7 @@
 					>
 				</button>
 			</div>
+			<div class="mx-1 italic font-light text-sm">kadın, erkek, çocuk</div>
 		</div>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">

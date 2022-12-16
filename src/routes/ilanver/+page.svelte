@@ -80,6 +80,10 @@
 	<title>Çift Dikiş | Admin Paneli</title>
 </svelte:head>
 
+<div class="text-center text-xl">
+  İlan ver
+</div>
+
 <div class="flex justify-center items-center flex-col gap-5">
 	<div class="dropdown dropdown-right dropdown-hover">
 		<label tabindex="0" class="btn btn-secondary m-1"

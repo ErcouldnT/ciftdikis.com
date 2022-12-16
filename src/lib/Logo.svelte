@@ -4,9 +4,12 @@
 	import project from '../config/project';
 </script>
 
-<div class="flex flex-col gap-2 text-primary">
-	<div class="caption text-center text-6xl">{project.name}</div>
-	<div class="slogan text-center text-xl">{project.slogan}</div>
+<div>
+	<!-- lg:-ml-40 -->
+	<a href="/" class="flex flex-col gap-2 text-primary lg:-ml-40">
+		<div class="caption text-center text-6xl">{project.name}</div>
+		<div class="slogan text-center text-xl">{project.slogan}</div>
+	</a>
 </div>
 
 <style>
