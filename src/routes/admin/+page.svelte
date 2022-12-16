@@ -93,20 +93,25 @@
 			</div>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<div class="p-2 font-bold mt-5">Satıcılar</div>
-				{#each satıcılar as satıcı}
-					<div class="flex flex-row justify-center items-center gap-10">
-						<div>{satıcı.email}</div>
-						<div
-							on:click={async () => {
-								await removeSeller(satıcı.id);
-								window.location.reload();
-							}}
-							class="btn btn-error btn-outline"
-						>
-							Satıcıyı iptal et
-						</div>
-					</div>
-				{/each}
+				<div class="grid grid-cols-2 gap-2 m-auto">
+					{#each satıcılar as satıcı}
+						<!-- <div class="grid grid-cols-2"> -->
+							<div>{satıcı.email}</div>
+							<div>
+								<div
+									on:click={async () => {
+										await removeSeller(satıcı.id);
+										window.location.reload();
+									}}
+									class="btn btn-error btn-outline"
+								>
+									Satıcıyı iptal et
+								</div>
+							</div>
+						<!-- </div> -->
+					{/each}
+
+				</div>
 			</div>
 		</div>
 	</div>
