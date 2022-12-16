@@ -1,6 +1,7 @@
 <script>
-	// import moment from 'moment';
+	import moment from 'moment';
 	import { onMount } from 'svelte';
+	import 'moment/dist/locale/tr?client';
 	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
 	import { allItems } from '../../api/itemsApi?client';
@@ -44,7 +45,7 @@
 						<div class="m-auto">
 							<div>Ürün adı: {p.productName}</div>
 							<div>Satıcı: {p.seller.displayName}</div>
-							<!-- <div>İlan tarihi: {moment(Date(p.createdAt)).format('LLL')}</div> -->
+							<div>İlan tarihi: {moment(p.createdAt).format('LLL')}</div>
 							{#if p.tags}
 								<div>Etiketler: {p?.tags?.join(', ')}</div>
 							{/if}
@@ -98,7 +99,7 @@
 				<div class="grid grid-cols-2 gap-2 m-auto">
 					{#each satıcılar as satıcı}
 						<!-- <div class="grid grid-cols-2"> -->
-						<div>{satıcı.email}</div>
+						<div class="m-auto">{satıcı.email}</div>
 						<div>
 							<div
 								on:click={async () => {
