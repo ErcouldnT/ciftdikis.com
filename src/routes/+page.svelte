@@ -28,7 +28,7 @@
 	<title>{project.name} | {project.slogan}</title>
 </svelte:head>
 
-<div class="grid grid-cols-7">
+<div class="grid lg:grid-cols-7 grid-cols-1">
 	<div class="border rounded-2xl col-span-1">
 		<Categories />
 	</div>

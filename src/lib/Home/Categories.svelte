@@ -20,13 +20,13 @@
 	<!-- Desktop view -->
 	<ul class="menu menu-vertical p-0 m-3 hidden lg:flex">
 		<li>
-			<a href="/" target="_self" class="m-1 rounded-lg btn-outline btn-warning font-semibold"
+			<a href="/" target="_self" class="m-1 rounded-lg btn-outline btn-primary font-semibold"
 				>Tüm ürünler</a
 			>
 		</li>
 		{#each Object.keys(kategoriler) as key (key)}
 			<li>
-				<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-secondary m-1"
+				<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-primary m-1"
 					>{kategoriler[key]}</a
 				>
 			</li>
