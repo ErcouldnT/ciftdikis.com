@@ -1,1 +1,1 @@
-<div>Favori Ürünlerim</div>
+<div class="text-center text-xl">Beğendiğim Ürünler</div>
