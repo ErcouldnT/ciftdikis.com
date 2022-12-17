@@ -1,1 +1,3 @@
-<div>Siparişlerim</div>
+<div class="text-center text-xl">
+  Siparişlerim
+</div>

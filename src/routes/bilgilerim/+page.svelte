@@ -1,1 +1,3 @@
-<div>Kullanıcı Bilgilerim</div>
+<div class="text-center text-xl">
+  Kullanıcı Bilgilerim
+</div>
