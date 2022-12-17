@@ -2,7 +2,7 @@
 	import kategoriler from '../../config/kategoriler';
 </script>
 
-<div>
+<div class="sticky left-1 top-1">
 	<!-- Mobile view -->
 	<div class="dropdown lg:hidden p-5">
 		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->

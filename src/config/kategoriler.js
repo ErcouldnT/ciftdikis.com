@@ -7,6 +7,7 @@ export default {
 	esofman: 'Eşofman',
 	kapri: 'Kapri',
 	mont: 'Mont',
-	"takim-elbise": 'Takım Elbise & Smokin',
-	// ayakkabı: 'Ayakkabı',
+	'takim-elbise': 'Takım Elbise & Smokin',
+	abiye: 'Abiye',
+	elbise: 'Elbise'
 };

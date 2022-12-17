@@ -29,7 +29,7 @@
 </svelte:head>
 
 <div class="grid lg:grid-cols-7 grid-cols-1">
-	<div class="border rounded-2xl col-span-1">
+	<div class="border rounded-2xl col-span-1 pb-3">
 		<Categories />
 	</div>
 	<div class="m-auto col-span-5">
