@@ -8,7 +8,7 @@
 
 <!-- <div class="text-center text-xl text-primary">Nasıl Satıcı Olunur?</div> -->
 
-<div class="absolute hidden lg:flex top-1/3 w-screen justify-center items-center -z-10">
+<div class="absolute hidden lg:flex w-screen justify-center items-center -z-10">
   <img class="" src="/contact.png" alt="">
 </div>
 
