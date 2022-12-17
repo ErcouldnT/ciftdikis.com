@@ -17,7 +17,7 @@
 		<p class="font-bold">
 			<a href={"mailto:" + project.email}>Bize ulaşın</a>
 		</p>
-		<p>Copyright © 2023 - Tüm hakları saklıdır.</p>
+		<p>© 2023</p>
 	</div>
 	<!-- <div>
 		<div class="grid grid-flow-col gap-4">

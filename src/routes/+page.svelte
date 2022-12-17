@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	// import { user, isLoggedIn, items } from '../stores';
-	import { approvedProducts } from '../stores/products';
+	import { approvedProducts, favoriteProducts } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
 	import project from '../config/project';
 
@@ -11,6 +11,13 @@
 
 	const goToProduct = (name) => {
 		goto(name.trim().replace(' ', '-').toLowerCase());
+	};
+
+	const favoriyeAl = (item) => {
+		const newList = $favoriteProducts;
+		newList.push(item);
+		favoriteProducts.set(newList);
+		// console.log($favoriteProducts);
 	};
 
 	onMount(async () => {
@@ -38,7 +45,7 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
 					on:click={goToProduct(item.productName)}
-					class="card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
+					class="hover:bg-primary card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 				>
 					<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
 					<div class="card-body">
@@ -46,6 +53,9 @@
 						<p class="font-bold text-2xl">{item.price}₺</p>
 						<p>Satıcı: <span class="font-bold">{item.seller.displayName}</span></p>
 						<div class="card-actions justify-end">
+							<div class="btn btn-ghost btn-circle">
+								<i on:click={() => {favoriyeAl(item)}} class="hover:text-red-700 fa fa-heart text-3xl text-accent p-2"></i>
+							</div>
 							<button class="btn btn-primary">Ürüne git</button>
 						</div>
 					</div>

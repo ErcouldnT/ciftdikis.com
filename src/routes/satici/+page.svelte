@@ -1,8 +1,10 @@
 <script>
+  import { goto } from '$app/navigation';
 	import { user } from '../../stores';
 
 	const formuGonder = () => {
 		alert('Teşekkürler, form başarıyla gönderildi.');
+    goto("/")
 	};
 </script>
 
