@@ -43,7 +43,7 @@
 
 			loading = true;
 
-			const slug = isim.trim().replace(' ', '-').toLowerCase();
+			const slug = isim.trim().replaceAll(' ', '-').toLowerCase();
 			const imageRef = ref(storage, 'images/' + resim?.name + '-' + nanoid());
 			uploadBytes(imageRef, resim).then((snapshot) => {
 				getDownloadURL(snapshot.ref).then(async (link) => {
