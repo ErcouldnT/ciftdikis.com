@@ -4,3 +4,4 @@ import { writable } from 'svelte/store';
 export const approvedProducts = writable([]);
 export const favoriteProducts = writable([]);
 export const allProducts = writable([]);
+export const homePageProductList = writable([]);

@@ -1,33 +1,40 @@
 <script>
 	import kategoriler from '../../config/kategoriler';
+	import { homePageProductList, approvedProducts } from '../../stores/products';
+
+	const homePageUpdate = (category) => {
+		const newList = $approvedProducts.filter((p) => {
+			return p.category === category;
+		});
+		homePageProductList.set(newList);
+	};
+
+	const showAllProducts = () => {
+		homePageProductList.set($approvedProducts);
+	};
 </script>
 
 <div class="sticky left-1 top-1">
 	<!-- Mobile view -->
-	<div class="dropdown lg:hidden p-5">
-		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label tabindex="0" class="btn btn-primary m-1">Kategoriler</label>
-		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-			<li><a href="/" target="_self">Tüm ürünler</a></li>
-			{#each Object.keys(kategoriler) as key (key)}
-				<li><a href={'/kategori/' + key} target="_self">{kategoriler[key]}</a></li>
-			{/each}
-		</ul>
-	</div>
 
 	<!-- Desktop view -->
-	<ul class="menu menu-vertical p-0 m-3 hidden lg:flex">
+	<ul class="menu menu-vertical p-0 m-3">
 		<li>
-			<a href="/" target="_self" class="m-1 rounded-lg btn-outline btn-primary font-semibold"
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<a on:click={showAllProducts} class="m-1 rounded-lg btn-outline btn-primary font-semibold"
 				>Tüm ürünler</a
 			>
 		</li>
 		{#each Object.keys(kategoriler) as key (key)}
 			<li>
-				<a href={'/kategori/' + key} target="_self" class="rounded-lg btn-primary m-1"
-					>{kategoriler[key]}</a
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<a
+					on:click={() => {
+						homePageUpdate(key);
+					}}
+					class="rounded-lg btn-primary m-1">{kategoriler[key]}</a
 				>
 			</li>
 		{/each}

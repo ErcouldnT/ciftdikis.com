@@ -9,7 +9,7 @@
 	import { auth, db } from '../firebase?client';
 	import { user, isLoggedIn } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
-	import { approvedProducts, allProducts } from '../stores/products';
+	import { approvedProducts, allProducts, homePageProductList } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
 
 	const admins = [];
@@ -53,6 +53,7 @@
 			return product.approved === true;
 		});
 		approvedProducts.set(newList);
+		homePageProductList.set(newList);
 	});
 </script>
 
