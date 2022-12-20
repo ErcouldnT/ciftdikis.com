@@ -35,14 +35,14 @@
 	<title>{project.name} | {project.slogan}</title>
 </svelte:head>
 
-{#if $homePageProductList.length}
+{#if $homePageProductList.length >= 1}
 	<div class="grid lg:grid-cols-7 grid-cols-1">
 		<div class="border rounded-2xl col-span-1 pb-3">
 			<Categories />
 		</div>
 		<div class="m-auto col-span-5">
 			<div class="flex flex-wrap gap-5 justify-center items-center">
-				{#each $homePageProductList as item (item.slug)}
+				{#each $homePageProductList as item (item.id)}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div
 						on:click={goToProduct(item.productName)}
