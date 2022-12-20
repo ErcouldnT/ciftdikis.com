@@ -2,9 +2,11 @@ import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
 export function load({ params }) {
-	if (params.product) {
+	const slug = params.slug.trim().toLowerCase().replaceAll(" ", "-");
+
+	if (slug) {
 		return {
-			productName: params.product.toLowerCase(),
+			slug: slug
 		};
 	}
 

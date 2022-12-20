@@ -9,9 +9,9 @@
 
 	// console.log($approvedProducts);
 
-	const goToProduct = (name) => {
-		goto(name.trim().replace(' ', '-').toLowerCase());
-	};
+	// const goToProduct = (slug) => {
+	// 	goto(slug);
+	// };
 
 	const favoriyeAl = (item) => {
 		const newList = $favoriteProducts;
@@ -44,8 +44,8 @@
 			<div class="flex flex-wrap gap-5 justify-center items-center">
 				{#each $homePageProductList as item (item.id)}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<div
-						on:click={goToProduct(item.productName)}
+					<a
+						href={"/" + item.slug}
 						class="hover:bg-primary card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 					>
 						<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
@@ -65,7 +65,7 @@
 								<button class="btn btn-primary">Ürüne git</button>
 							</div>
 						</div>
-					</div>
+					</a>
 				{/each}
 			</div>
 		</div>

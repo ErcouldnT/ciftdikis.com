@@ -3,11 +3,29 @@
 	import Logo from './Logo.svelte';
 	import { shoppingCart, user, isLoggedIn } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
-	import { favoriteProducts } from '../stores/products';
+	import { favoriteProducts, homePageProductList, approvedProducts } from '../stores/products';
 	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
 
 	let toplamFiyat;
+	let searchTerm = '';
+
+	let tümÜrünler = $approvedProducts;
+
+	// Anlık arama
+	$: homePageProductList.set(
+		$approvedProducts.filter((p) => {
+			return p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase());
+		})
+	);
+
+	// Butonla arama yapmak için
+	const aramaYap = () => {
+		const arananÜrünler = tümÜrünler.filter((p) => {
+			return p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase());
+		});
+		homePageProductList.set(arananÜrünler);
+	};
 
 	$: {
 		toplamFiyat = 0;
@@ -56,10 +74,15 @@
 		</div>
 	</div>
 	<div class="navbar-center">
-		<div class="form-control m-2">
+		<form on:submit|preventDefault class="form-control m-2">
 			<div class="input-group">
-				<input type="text" placeholder="Ürün ara…" class="input input-bordered w-72" />
-				<button class="btn btn-square btn-primary">
+				<input
+					bind:value={searchTerm}
+					type="text"
+					placeholder="Ürün ara…"
+					class="input input-bordered w-72"
+				/>
+				<button on:click={aramaYap} class="btn btn-square btn-primary">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						class="h-6 w-6"
@@ -76,7 +99,7 @@
 				</button>
 			</div>
 			<div class="mx-1 italic font-light text-sm">kadın, erkek, çocuk, bebek</div>
-		</div>
+		</form>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
 		<a href="/satici">

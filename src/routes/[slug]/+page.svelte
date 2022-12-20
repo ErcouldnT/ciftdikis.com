@@ -12,7 +12,7 @@
 	let product;
 
 	onMount(async () => {
-		const productData = await getItem(data.productName);
+		const productData = await getItem(data.slug);
 		product = { ...productData };
 		// console.log(product);
 		if (!product.productName) goto('/');
