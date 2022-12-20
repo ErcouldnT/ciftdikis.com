@@ -10,8 +10,6 @@
 	let toplamFiyat;
 	let searchTerm = '';
 
-	let tümÜrünler = $approvedProducts;
-
 	// Anlık arama
 	$: homePageProductList.set(
 		$approvedProducts.filter((p) => {
@@ -21,10 +19,9 @@
 
 	// Butonla arama yapmak için
 	const aramaYap = () => {
-		const arananÜrünler = tümÜrünler.filter((p) => {
+		homePageProductList.set($approvedProducts.filter((p) => {
 			return p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase());
-		});
-		homePageProductList.set(arananÜrünler);
+		}));
 	};
 
 	$: {

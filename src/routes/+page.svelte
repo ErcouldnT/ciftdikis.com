@@ -36,7 +36,8 @@
 </svelte:head>
 
 {#if $homePageProductList.length >= 1}
-	<div class="grid lg:grid-cols-7 grid-cols-1">
+	<!-- Sağdaki menüyü ekleyince grid-cols-7 yap. -->
+	<div class="grid lg:grid-cols-6 grid-cols-1">
 		<div class="border rounded-2xl col-span-1 pb-3">
 			<Categories />
 		</div>
@@ -45,7 +46,7 @@
 				{#each $homePageProductList as item (item.id)}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<a
-						href={"/" + item.slug}
+						href={'/' + item.slug}
 						class="hover:bg-primary card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 					>
 						<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
@@ -69,13 +70,16 @@
 				{/each}
 			</div>
 		</div>
-		<div class="border rounded-2xl col-span-1">
+		<!-- <div class="border rounded-2xl col-span-1">
 			<div>Son eklenen ürünler</div>
 			<div>En çok beğenilen ürünler</div>
 			<div>En çok görüntülenen ürünler</div>
-			<!-- <div>Aynı kategorideki benzer ürünler</div> -->
-		</div>
+			<div>Aynı kategorideki benzer ürünler</div>
+		</div> -->
 	</div>
-{:else}
+{:else if $homePageProductList.length === 0}
 	<div class="text-center p-10 italic">Ürünler yüklenirken lütfen bekleyin...</div>
+{:else}
+	<!-- TODO: Ürün yoksa "bulunamadı" yazacak. -->
+	<div class="text-center p-10 italic">Ürün bulunamadı.</div>
 {/if}
