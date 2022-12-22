@@ -1,7 +1,8 @@
 <script>
 	import '../app.postcss';
-	import Header from '../lib/Header.svelte';
-	import Footer from '../lib/Footer.svelte';
+	import Header from '$lib/Header.svelte';
+	import Footer from '$lib/Footer.svelte';
+	// import Categories from '$lib/Home/Categories.svelte';
 
 	import { onMount } from 'svelte';
 	import { onAuthStateChanged } from 'firebase/auth?client';
@@ -58,5 +59,7 @@
 </script>
 
 <Header />
+
 <slot />
+
 <Footer />
