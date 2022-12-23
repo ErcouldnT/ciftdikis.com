@@ -1,17 +1,13 @@
 <script>
-	import Categories from '$lib/Home/Categories.svelte';
 	import { onMount } from 'svelte';
+	import { flip } from 'svelte/animate';
+	import { fade, fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
+	import Categories from '$lib/Home/Categories.svelte';
 	// import { user, isLoggedIn, items } from '../stores';
 	import { approvedProducts, favoriteProducts, homePageProductList } from '../../stores/products';
 	import { allItems } from '../../api/itemsApi?client';
 	import project from '../../config/project';
-
-	// console.log($approvedProducts);
-
-	// const goToProduct = (slug) => {
-	// 	goto(slug);
-	// };
 
 	const favoriyeAl = (item) => {
 		const newList = $favoriteProducts;
@@ -40,8 +36,10 @@
 		<div class="flex flex-wrap gap-5 justify-center items-center">
 			{#each $homePageProductList as item (item.id)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- transition:fade={{ duration: 250 }} -->
 				<a
-					href={'/' + item.category + "/" + item.slug}
+					in:fly={{ y: 200, duration: 2000 }}
+					href={'/' + item.category + '/' + item.slug}
 					class="hover:bg-primary card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 				>
 					<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>

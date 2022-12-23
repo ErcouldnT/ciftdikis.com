@@ -4,6 +4,7 @@
 	const categoryKey = data.categoryKey;
 	const category = data.category;
 
+	import { fade, fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { approvedProducts } from '../../../stores/products';
 	import { category as categoryName } from '../../../stores/category';
@@ -18,7 +19,7 @@
 
 	$: {
 		contentIsLoaded = false;
-		kategoridekiÜrünler = []
+		kategoridekiÜrünler = [];
 		kategoridekiÜrünler = $approvedProducts.filter((item) => {
 			return item.category === $categoryName && item.approved === true;
 		});
@@ -37,9 +38,10 @@
 {#if contentIsLoaded}
 	<!-- content here -->
 	<div class="flex flex-wrap gap-5 justify-center items-center">
-		{#each kategoridekiÜrünler as item}
+		{#each kategoridekiÜrünler as item (item.id)}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
+				in:fly={{ y: 200, duration: 2000 }}
 				on:click={() => {
 					goto(`/${item.category}/${item.slug}`);
 				}}
