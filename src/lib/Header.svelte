@@ -13,15 +13,24 @@
 	// Anlık arama
 	$: homePageProductList.set(
 		$approvedProducts.filter((p) => {
-			return p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase());
+			return (
+				p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+				p.tags?.includes(searchTerm.trim().toLowerCase())
+			);
 		})
 	);
 
 	// Butonla arama yapmak için
 	const aramaYap = () => {
-		homePageProductList.set($approvedProducts.filter((p) => {
-			return p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase());
-		}));
+		goto('/');
+		homePageProductList.set(
+			$approvedProducts.filter((p) => {
+				return (
+					p.productName.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+					p.tags?.includes(searchTerm.trim().toLowerCase())
+				);
+			})
+		);
 	};
 
 	$: {

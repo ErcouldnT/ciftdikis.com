@@ -41,7 +41,7 @@
 			{#each $homePageProductList as item (item.id)}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<a
-					href={'/' + item.slug}
+					href={'/' + item.category + "/" + item.slug}
 					class="hover:bg-primary card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 				>
 					<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>

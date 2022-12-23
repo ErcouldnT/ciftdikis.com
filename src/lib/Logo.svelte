@@ -1,4 +1,5 @@
 <script>
+	import { goto } from '$app/navigation';
 	// import { fade, blur, fly, slide, scale } from "svelte/transition";
 	// import { quintOut } from "svelte/easing";
 	import project from '../config/project';
@@ -6,6 +7,7 @@
 
 	const homePageRefresh = () => {
 		homePageProductList.set($approvedProducts);
+		goto('/');
 	};
 </script>
 

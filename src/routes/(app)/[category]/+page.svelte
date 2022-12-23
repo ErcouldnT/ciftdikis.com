@@ -5,34 +5,44 @@
 	const category = data.category;
 
 	import { goto } from '$app/navigation';
-	import { approvedProducts } from '../../../../stores/products';
+	import { approvedProducts } from '../../../stores/products';
+	import { category as categoryName } from '../../../stores/category';
+	import kategoriler from '../../../config/kategoriler';
 
-	const goToProduct = (slug) => {
-		goto('/' + slug);
-	};
-
+	let contentIsLoaded = false;
 	let kategoridekiÜrünler = [];
 
-	$: kategoridekiÜrünler = $approvedProducts.filter((item) => {
-		return item.category === categoryKey && item.approved === true;
-	});
+	if (!$categoryName) {
+		categoryName.set(categoryKey);
+	}
+
+	$: {
+		contentIsLoaded = false;
+		kategoridekiÜrünler = []
+		kategoridekiÜrünler = $approvedProducts.filter((item) => {
+			return item.category === $categoryName && item.approved === true;
+		});
+		contentIsLoaded = true;
+	}
 </script>
 
 <svelte:head>
-	<title>Çift Dikiş | {category}</title>
+	<title>Çift Dikiş | {kategoriler[$categoryName]}</title>
 </svelte:head>
 
 <!-- <div class="text-center text-2xl">
 	Merhaba ben {category} sayfası!
 </div> -->
 
-{#if kategoridekiÜrünler.length}
+{#if contentIsLoaded}
 	<!-- content here -->
 	<div class="flex flex-wrap gap-5 justify-center items-center">
 		{#each kategoridekiÜrünler as item}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
-				on:click={goToProduct(item.slug)}
+				on:click={() => {
+					goto(`/${item.category}/${item.slug}`);
+				}}
 				class="card w-96 bg-base-100 shadow-xl cursor-pointer mb-7"
 			>
 				<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
@@ -47,6 +57,6 @@
 			</div>
 		{/each}
 	</div>
-{:else}
-	<div class="italic">Ürünler yükleniyor</div>
+{:else if contentIsLoaded && kategoridekiÜrünler.length === 0}
+	<div class="italic">Ürün bulunamadı.</div>
 {/if}

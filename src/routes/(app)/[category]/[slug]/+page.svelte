@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { getItem } from '../../api/itemsApi?client';
-	import { shoppingCart } from '../../stores';
+	import { getItem } from '../../../../api/itemsApi?client';
+	import { shoppingCart } from '../../../../stores';
 	import { nanoid } from 'nanoid';
 
 	let productList = $shoppingCart;

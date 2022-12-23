@@ -1,6 +1,6 @@
 // export const csr = false;
 import { error } from '@sveltejs/kit';
-import kategoriler from '../../../../config/kategoriler';
+import kategoriler from '../../../config/kategoriler';
 
 /** @type {import('./$types').PageLoad} */
 export function load({ params }) {

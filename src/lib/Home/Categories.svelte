@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import kategoriler from '../../config/kategoriler';
 	import { homePageProductList, approvedProducts } from '../../stores/products';
+	import { category } from '../../stores/category';
 
 	const homePageUpdate = (category) => {
 		const newList = $approvedProducts.filter((p) => {
@@ -16,7 +17,8 @@
 	};
 
 	const goToCategory = (key) => {
-		return '/' + 'kategori/' + key;
+		category.set(key);
+		goto('/' + key);
 	};
 </script>
 
@@ -27,14 +29,21 @@
 	<ul class="menu menu-vertical p-0 m-3">
 		<li>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<a href="/" class="m-1 rounded-lg btn-outline btn-primary font-semibold">Tüm ürünler</a>
+			<div on:click={showAllProducts} class="m-1 rounded-lg btn-outline btn-primary font-semibold">
+				Tüm ürünler
+			</div>
 		</li>
 		{#each Object.keys(kategoriler) as key (key)}
 			<li data-sveltekit-preload-code="hover">
-				<a href={goToCategory(key)} target="_self" class="rounded-lg btn-primary m-1"
-					>{kategoriler[key]}</a
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<div
+					on:click={() => {
+						goToCategory(key);
+					}}
+					class="rounded-lg btn-primary m-1"
 				>
+					{kategoriler[key]}
+				</div>
 			</li>
 		{/each}
 	</ul>
