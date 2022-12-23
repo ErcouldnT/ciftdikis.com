@@ -119,6 +119,8 @@
 		</div> -->
 		<div class="flex justify-center items-center gap-2">
 			<a href="/favorilerim">
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
 						<i class="fa fa-heart text-xl text-primary" aria-hidden="true" />
@@ -137,12 +139,16 @@
 			</a>
 
 			<div class="dropdown dropdown-end">
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
-						<i class="fa fa-shopping-cart text-xl text-primary" aria-hidden="true" />
+						<i class="fa fa-shopping-basket text-xl text-primary" aria-hidden="true" />
 						<span class="badge badge-sm indicator-item">{$shoppingCart?.length}</span>
 					</div>
 				</label>
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<div tabindex="0" class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
 					<div class="card-body">
 						<span class="font-bold text-lg">{$shoppingCart?.length} ürün</span>

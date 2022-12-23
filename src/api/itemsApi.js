@@ -33,7 +33,7 @@ export const itemCreator = async (
 			productName,
 			desc,
 			seller,
-			price,
+			price: Number(price),
 			imgLink,
 			createdAt: Date.now(),
 			comments: [],
