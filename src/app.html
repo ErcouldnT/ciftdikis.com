@@ -3,19 +3,29 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
 	</head>
 	<input type="checkbox" id="my-modal-4" class="modal-toggle" />
-	<label for="my-modal-4" class="modal cursor-pointer">
+	<label for="my-modal-4" class="modal cursor-pointer modal-bottom sm:modal-middle">
+		<!-- <div class="modal modal-bottom sm:modal-middle"> -->
 		<label class="modal-box relative" for="">
+			<label for="my-modal-4" class="btn btn-primary btn-sm btn-circle absolute right-2 top-2">✕</label>
 			<h3 class="text-lg font-bold">Alışveriş sepetinize başarıyla eklendi.</h3>
 			<p class="py-4">
-				Dilediğiniz zaman sağ üstten alışveriş sepetinize gidebilirsiniz.
-				<p class="text-primary text-right italic text-light text-sm">ciftdikis.com</p>
+				Dilediğiniz zaman sağ üst menüde bulunan sepet ikonuna tıklayarak alışveriş sepetinizi
+				kontrol edebilirsiniz.
 			</p>
+			<div class="modal-action">
+				<label for="my-modal-4" class="btn btn-primary">Alışverişe devam et</label>
+				<a href="/sepetim" for="my-modal-4" class="btn btn-primary">Sepete git</a>
+			</div>
 		</label>
+		<!-- </div> -->
 	</label>
 	<body>
 		<div>%sveltekit.body%</div>
