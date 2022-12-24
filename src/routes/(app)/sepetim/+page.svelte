@@ -115,7 +115,7 @@
 						<h1>Ürün: {item.productName}</h1>
 						<h2>Renk: {item.color}</h2>
 						<h2>Beden: {item.size}</h2>
-						<p>Fiyat: {item.price} ₺</p>
+						<p>Fiyat: {Number(item.price).toFixed(2)} ₺</p>
 					</div>
 				</div>
 			{/each}

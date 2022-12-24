@@ -11,18 +11,8 @@
 	export let data;
 
 	let product;
-	// let color;
-	// let size;
-
-	const colorPicker = (color) => {
-		console.log(color);
-		product.color = color;
-	};
-
-	const sizePicker = (size) => {
-		console.log(size);
-		product.size = size;
-	};
+	let selectedColor;
+	let selectedSize;
 
 	onMount(async () => {
 		const productData = await getItem(data.slug);
@@ -32,7 +22,13 @@
 	});
 
 	const sepeteEkle = () => {
+		// if (selectedColor.toLowerCase().includes('renk')) return;
+		// if (selectedSize.toLowerCase().includes('beden')) return;
+
 		product.cartId = nanoid();
+		product.color = selectedColor;
+		product.size = selectedSize;
+
 		productList.push(product);
 		shoppingCart.set(productList);
 		// console.log($shoppingCart);
@@ -63,53 +59,21 @@
 					<div class="text-2xl uppercase">{product.productName}</div>
 					<div class="text-3xl">{Number(product.price).toFixed(2)} ₺</div>
 					<div class="my-5">
-						<select class="select select-primary w-full max-w-xs">
-							<option disabled selected>Renk</option>
-							<option
-								on:click={() => {
-									colorPicker('siyah');
-								}}>Siyah</option
-							>
-							<option
-								on:click={() => {
-									colorPicker('gri');
-								}}>Gri</option
-							>
-							<option
-								on:click={() => {
-									colorPicker('lacivert');
-								}}>Lacivert</option
-							>
-							<option
-								on:click={() => {
-									colorPicker('kırmızı');
-								}}>Kırmızı</option
-							>
+						<select bind:value={selectedColor} class="select select-primary w-full max-w-xs">
+							<!-- <option disabled selected>Renk</option> -->
+							<option>Siyah</option>
+							<option>Kırmızı</option>
+							<option>Lacivert</option>
+							<option>Gri</option>
 						</select>
 					</div>
 					<div class="my-5">
-						<select class="select select-primary w-full max-w-xs">
-							<option disabled selected>Beden</option>
-							<option
-								on:click={() => {
-									sizePicker('S');
-								}}>S</option
-							>
-							<option
-								on:click={() => {
-									sizePicker('M');
-								}}>M</option
-							>
-							<option
-								on:click={() => {
-									sizePicker('L');
-								}}>L</option
-							>
-							<option
-								on:click={() => {
-									sizePicker('XL');
-								}}>XL</option
-							>
+						<select bind:value={selectedSize} class="select select-primary w-full max-w-xs">
+							<!-- <option disabled selected>Beden</option> -->
+							<option>S</option>
+							<option>M</option>
+							<option>L</option>
+							<option>XL</option>
 						</select>
 					</div>
 					<div class="my-5">
