@@ -4,8 +4,10 @@
 	// import { quintOut } from "svelte/easing";
 	import project from '../config/project';
 	import { homePageProductList, approvedProducts } from '../stores/products';
+	import { search } from '../stores/search';
 
 	const homePageRefresh = () => {
+		search.set('');
 		homePageProductList.set($approvedProducts);
 		goto('/');
 	};

@@ -3,6 +3,7 @@
 	import kategoriler from '../../config/kategoriler';
 	import { homePageProductList, approvedProducts } from '../../stores/products';
 	import { category } from '../../stores/category';
+	import { search } from '../../stores/search';
 
 	const homePageUpdate = (category) => {
 		const newList = $approvedProducts.filter((p) => {
@@ -12,6 +13,7 @@
 	};
 
 	const showAllProducts = () => {
+		search.set('');
 		homePageProductList.set($approvedProducts);
 		goto('/');
 	};

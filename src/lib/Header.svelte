@@ -3,12 +3,15 @@
 	import Logo from './Logo.svelte';
 	import { shoppingCart, user, isLoggedIn } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
+	import { search } from '../stores/search';
 	import { favoriteProducts, homePageProductList, approvedProducts } from '../stores/products';
 	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
 
 	let toplamFiyat;
 	let searchTerm = '';
+
+	$: searchTerm = $search;
 
 	// Anlık arama
 	$: homePageProductList.set(
@@ -83,7 +86,7 @@
 		<form on:submit|preventDefault class="form-control m-2">
 			<div class="input-group">
 				<input
-					bind:value={searchTerm}
+					bind:value={$search}
 					type="text"
 					placeholder="Ürün ara…"
 					class="input input-bordered w-72"
