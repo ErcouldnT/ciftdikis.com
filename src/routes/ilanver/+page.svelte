@@ -16,6 +16,49 @@
 	let fiyat;
 	let seçilenKategori;
 	let resim;
+	let amount;
+	let colors = [];
+	let sizes = [];
+
+	const uiColors = [
+		{ name: 'Kırmızı', checked: false },
+		{ name: 'Beyaz', checked: false },
+		{ name: 'Siyah', checked: false },
+		{ name: 'Yeşil', checked: false },
+		{ name: 'Mavi', checked: false },
+		{ name: 'Lacivert', checked: false },
+		{ name: 'Gri', checked: false },
+		{ name: 'Sarı', checked: false },
+		{ name: 'Turuncu', checked: false }
+	];
+
+	const uiSizes = [
+		{ name: 'XXS', checked: false },
+		{ name: 'XS', checked: false },
+		{ name: 'S', checked: false },
+		{ name: 'M', checked: false },
+		{ name: 'L', checked: false },
+		{ name: 'XL', checked: false },
+		{ name: 'XXL', checked: false }
+	];
+
+	const choosenColors = () => {
+		colors = [];
+		uiColors.forEach((color) => {
+			if (color.checked) {
+				colors.push(color.name);
+			}
+		});
+	};
+
+	const choosenSizes = () => {
+		sizes = [];
+		uiSizes.forEach((size) => {
+			if (size.checked) {
+				sizes.push(size.name);
+			}
+		});
+	};
 
 	let loading = false;
 
@@ -40,6 +83,8 @@
 			if (!seçilenKategori) return;
 
 			const tags = taglarıAyır();
+			choosenColors();
+			choosenSizes();
 
 			loading = true;
 
@@ -60,7 +105,10 @@
 						},
 						fiyat,
 						link,
-						tags
+						tags,
+						colors,
+						sizes,
+						amount
 					);
 					alert('Ürün kaydetme başarılı.');
 					// loading = false;
@@ -80,18 +128,21 @@
 	<title>Çift Dikiş | Admin Paneli</title>
 </svelte:head>
 
-<div class="text-center text-xl">
-  İlan ver
-</div>
+<div class="text-center text-xl">İlan ver</div>
 
 <div class="flex justify-center items-center flex-col gap-5">
 	<div class="dropdown dropdown-right dropdown-hover">
+		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label tabindex="0" class="btn btn-secondary m-1"
 			>{seçilenKategori ? seçilenKategori : 'Ürün kategorisi seç'}</label
 		>
+		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
 			{#each Object.keys(kategoriler) as kategoriKey}
 				<li>
+					<!-- svelte-ignore a11y-missing-attribute -->
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<a
 						on:click={() => {
 							kategoriSeç(kategoriKey);
@@ -134,7 +185,36 @@
 		/>
 	</div>
 	<div>
+		<input
+			bind:value={amount}
+			type="text"
+			placeholder="Stok sayısı"
+			class="input input-bordered input-warning w-full max-w-xs"
+		/>
+	</div>
+	<div class="flex gap-4">
+		{#each uiColors as color}
+			<div class="form-control">
+				<label class="label cursor-pointer">
+					<span class="label-text">{color.name}</span>
+					<input type="checkbox" bind:checked={color.checked} class="checkbox checkbox-warning" />
+				</label>
+			</div>
+		{/each}
+	</div>
+	<div class="flex gap-4">
+		{#each uiSizes as size}
+			<div class="form-control">
+				<label class="label cursor-pointer">
+					<span class="label-text">{size.name}</span>
+					<input type="checkbox" bind:checked={size.checked} class="checkbox checkbox-warning" />
+				</label>
+			</div>
+		{/each}
+	</div>
+	<div>
 		<div class="form-control w-full max-w-xs">
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label">
 				<span class="label-text">Ürün resmi yükleyin</span>
 				<!-- <span class="label-text-alt">Alt label</span> -->
@@ -144,6 +224,7 @@
 				type="file"
 				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"
 			/>
+			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label">
 				<!-- <span class="label-text-alt">Alt label</span> -->
 				<!-- <span class="label-text-alt">Alt label</span> -->

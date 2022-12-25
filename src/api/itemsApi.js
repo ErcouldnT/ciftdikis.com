@@ -23,7 +23,10 @@ export const itemCreator = async (
 	seller,
 	price,
 	imgLink,
-	tags
+	tags,
+	colors,
+	sizes,
+	amount
 ) => {
 	try {
 		const docRef = await addDoc(collection(db, 'ürünler'), {
@@ -37,7 +40,10 @@ export const itemCreator = async (
 			imgLink,
 			createdAt: Date.now(),
 			comments: [],
-			tags
+			tags,
+			colors,
+			sizes,
+			amount: Number(amount)
 		});
 		console.log('Ürün kaydedildi: ', docRef.id);
 	} catch (e) {

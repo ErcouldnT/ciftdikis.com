@@ -58,22 +58,21 @@
 				<div class="p-10 mt-10">
 					<div class="text-2xl uppercase">{product.productName}</div>
 					<div class="text-3xl">{Number(product.price).toFixed(2)} ₺</div>
+					<div class="text-sm font-light">Stok durumu: <span class="font-normal">{product.amount || "Mevcut"}</span></div>
 					<div class="my-5">
 						<select bind:value={selectedColor} class="select select-primary w-full max-w-xs">
 							<!-- <option disabled selected>Renk</option> -->
-							<option>Siyah</option>
-							<option>Kırmızı</option>
-							<option>Lacivert</option>
-							<option>Gri</option>
+							{#each product.colors || [] as color}
+								<option>{color}</option>
+							{/each}
 						</select>
 					</div>
 					<div class="my-5">
 						<select bind:value={selectedSize} class="select select-primary w-full max-w-xs">
 							<!-- <option disabled selected>Beden</option> -->
-							<option>S</option>
-							<option>M</option>
-							<option>L</option>
-							<option>XL</option>
+							{#each product.sizes || [] as size}
+								<option>{size}</option>
+							{/each}
 						</select>
 					</div>
 					<div class="my-5">
