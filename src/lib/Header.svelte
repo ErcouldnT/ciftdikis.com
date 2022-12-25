@@ -1,10 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Logo from './Logo.svelte';
-	import { shoppingCart, user, isLoggedIn } from '../stores';
+	import { shoppingCart, user, isLoggedIn, favProductList } from '../stores';
 	import { isAdmin, isSeller } from '../stores/user';
 	import { search } from '../stores/search';
-	import { favoriteProducts, homePageProductList, approvedProducts } from '../stores/products';
+	import { homePageProductList, approvedProducts } from '../stores/products';
 	import { auth } from '../firebase?client';
 	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
 
@@ -127,7 +127,7 @@
 				<label tabindex="0" class="btn btn-ghost btn-circle">
 					<div class="indicator">
 						<i class="fa fa-heart text-xl text-primary" aria-hidden="true" />
-						<span class="badge badge-sm indicator-item">{$favoriteProducts.length || 0}</span>
+						<span class="badge badge-sm indicator-item">{$favProductList.length || 0}</span>
 					</div>
 				</label>
 				<!-- <div tabindex="0" class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">

@@ -3,10 +3,11 @@
 	import { fade, fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { getItem } from '../../../../api/itemsApi?client';
-	import { shoppingCart } from '../../../../stores';
+	import { shoppingCart, favProductList } from '../../../../stores';
 	import { nanoid } from 'nanoid';
 
 	let productList = $shoppingCart;
+	let favList = $favProductList;
 
 	export let data;
 
@@ -33,6 +34,15 @@
 		shoppingCart.set(productList);
 		// console.log($shoppingCart);
 		// console.log(product);
+	};
+
+	const favorilereEkle = () => {
+		product.favId = nanoid();
+		product.color = selectedColor;
+		product.size = selectedSize;
+
+		favList.push(product);
+		favProductList.set(favList);
 	};
 </script>
 
@@ -85,7 +95,8 @@
 							<i class="fa fa-shopping-basket" aria-hidden="true" />
 							<div>Sepete ekle</div>
 						</label>
-						<div class="gap-2 btn btn-error btn-outline">
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div on:click={favorilereEkle} class="gap-2 btn btn-error btn-outline">
 							<i class="fa fa-heart" aria-hidden="true" />
 							<div>Favorilere ekle</div>
 						</div>

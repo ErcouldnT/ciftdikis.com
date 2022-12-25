@@ -5,14 +5,15 @@
 	import { goto } from '$app/navigation';
 	import Categories from '$lib/Home/Categories.svelte';
 	// import { user, isLoggedIn, items } from '../stores';
-	import { approvedProducts, favoriteProducts, homePageProductList } from '../../stores/products';
+	import { approvedProducts, homePageProductList } from '../../stores/products';
+	import { favProductList } from '../../stores';
 	import { allItems } from '../../api/itemsApi?client';
 	import project from '../../config/project';
 
 	const favoriyeAl = (item) => {
-		const newList = $favoriteProducts;
+		const newList = $favProductList;
 		newList.push(item);
-		favoriteProducts.set(newList);
+		favProductList.set(newList);
 		// console.log($favoriteProducts);
 	};
 

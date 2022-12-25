@@ -14,5 +14,14 @@ shoppingCart.subscribe((value) => {
 	}
 });
 
+export const favProductList = writable((browser && localStorage.fav) ? JSON.parse(localStorage.getItem('fav')) : [] || []);
+
+favProductList.subscribe((value) => {
+	if (browser) {
+		window.localStorage.setItem('fav', JSON.stringify(value));
+		// content.subscribe((value) => localStorage.content = value)
+	}
+});
+
 export const user = writable({});
 export const isLoggedIn = writable(false);
