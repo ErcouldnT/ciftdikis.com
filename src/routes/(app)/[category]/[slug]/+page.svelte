@@ -5,6 +5,7 @@
 	import { getItem } from '../../../../api/itemsApi?client';
 	import { shoppingCart, favProductList } from '../../../../stores';
 	import { nanoid } from 'nanoid';
+	import Rating from '../../../../components/Rating.svelte';
 
 	let productList = $shoppingCart;
 	let favList = $favProductList;
@@ -64,11 +65,15 @@
 				<div class="absolute right-0 p-5">
 					<div class="text-sm font-light">Satıcı:</div>
 					<div class="uppercase">{product.seller.displayName}</div>
+					<Rating />
 				</div>
 				<div class="p-10 mt-10">
 					<div class="text-2xl uppercase">{product.productName}</div>
 					<div class="text-3xl">{Number(product.price).toFixed(2)} ₺</div>
-					<div class="text-sm font-light">Stok durumu: <span class="font-normal">{product.amount || "Mevcut"}</span></div>
+					<div class="text-sm font-light">
+						Stok durumu: <span class="font-normal">{product.amount || 'Mevcut'}</span>
+					</div>
+					<!-- <div class="text-sm font-light">İlan tarihi: <span class="font-normal">{product.createdAt}</span></div> -->
 					<div class="my-5">
 						<select bind:value={selectedColor} class="select select-primary w-full max-w-xs">
 							<!-- <option disabled selected>Renk</option> -->
