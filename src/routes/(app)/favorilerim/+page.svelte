@@ -23,7 +23,7 @@
 					src={item.imgLink}
 					alt={item.productName}
 				/>
-				<div class="p-2">
+				<div class="p-3 bg-primary rounded-xl mt-1">
 					<h1>Ürün: {item.productName}</h1>
 					<!-- <h2>Renk: {item.color}</h2>
 				<h2>Beden: {item.size}</h2> -->
