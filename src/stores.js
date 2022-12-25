@@ -1,11 +1,13 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-export const items = writable([]);  // Bütün ürünleri burada yakala.
+export const items = writable([]); // Bütün ürünleri burada yakala.
 
 // const stored = localStorage.cart;
 
-export const shoppingCart = writable((browser && localStorage.cart) ? JSON.parse(localStorage.getItem('cart')) : [] || []);
+export const shoppingCart = writable(
+	browser && localStorage.cart ? JSON.parse(localStorage.getItem('cart')) : [] || []
+);
 
 shoppingCart.subscribe((value) => {
 	if (browser) {
@@ -14,7 +16,9 @@ shoppingCart.subscribe((value) => {
 	}
 });
 
-export const favProductList = writable((browser && localStorage.fav) ? JSON.parse(localStorage.getItem('fav')) : [] || []);
+export const favProductList = writable(
+	browser && localStorage.fav ? JSON.parse(localStorage.getItem('fav')) : [] || []
+);
 
 favProductList.subscribe((value) => {
 	if (browser) {
