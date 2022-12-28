@@ -14,6 +14,7 @@
 	let tagsString;
 	let açıklama;
 	let fiyat;
+	let kurus = "00";
 	let seçilenKategori;
 	let resim;
 	let amount;
@@ -80,7 +81,10 @@
 			if (!isim) return;
 			if (!açıklama) return;
 			if (!fiyat) return;
+			if (!kurus) return (kurus = '00');
 			if (!seçilenKategori) return;
+
+			let ondalıklıFiyat = Number(fiyat + "." + kurus);
 
 			const tags = taglarıAyır();
 			choosenColors();
@@ -103,7 +107,7 @@
 							email: $user.email,
 							photoURL: $user.photoURL
 						},
-						fiyat,
+						ondalıklıFiyat,
 						link,
 						tags,
 						colors,
@@ -176,13 +180,25 @@
 			class="input input-bordered input-warning w-full max-w-xs"
 		/>
 	</div>
-	<div>
-		<input
-			bind:value={fiyat}
-			type="text"
-			placeholder="Ürün fiyatı"
-			class="input input-bordered input-warning w-full max-w-xs"
-		/>
+	<div class="flex gap-2">
+		<div>
+			<input
+				bind:value={fiyat}
+				type="text"
+				placeholder="TL"
+				class="input input-bordered input-warning w-full max-w-xs"
+			/>
+		</div>
+		<p class="text-center text-4xl text-primary">,</p>
+		<div>
+			<input
+				bind:value={kurus}
+				type="text"
+				placeholder="Kuruş"
+				class="input input-bordered input-warning w-full max-w-xs"
+			/>
+		</div>
+		<p class="text-center text-4xl text-primary">₺</p>
 	</div>
 	<div>
 		<input
