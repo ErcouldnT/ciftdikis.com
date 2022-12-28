@@ -14,8 +14,8 @@
 	let tagsString;
 	let açıklama;
 	let fiyat;
-	let kurus = "00";
-	let seçilenKategori;
+	let kurus = '00';
+	let selectedCategory;
 	let resim;
 	let amount;
 	let colors = [];
@@ -63,11 +63,6 @@
 
 	let loading = false;
 
-	const kategoriSeç = (kategoriKey) => {
-		seçilenKategori = kategoriKey;
-		// console.log(seçilenKategori);
-	};
-
 	const taglarıAyır = () => {
 		const tagler = tagsString.toLowerCase().trim().replace(/\s/g, '').split(',');
 		return tagler;
@@ -75,22 +70,27 @@
 
 	const databaseKaydet = () => {
 		try {
-			if (!resim) return;
-			resim = resim[0];
+			if (!selectedCategory || selectedCategory.toLowerCase().includes('seç'))
+				return alert('Lütfen kategori seçiniz.');
 
 			if (!isim) return;
 			if (!açıklama) return;
 			if (!fiyat) return;
 			if (!kurus) return (kurus = '00');
-			if (!seçilenKategori) return;
 
-			let ondalıklıFiyat = Number(fiyat + "." + kurus);
+			let ondalıklıFiyat = Number(fiyat + '.' + kurus);
 
 			const tags = taglarıAyır();
 			choosenColors();
 			choosenSizes();
 
+			if (!colors.length) return alert('Lütfen en az bir renk seçiniz.');
+			if (!sizes.length) return alert('Lütfen en az bir beden seçiniz.');
+
 			loading = true;
+
+			if (!resim[0]) return alert('Lütfen resim yükleyiniz.');
+			resim = resim[0];
 
 			const slug = isim.trim().replaceAll(' ', '-').toLowerCase();
 			const imageRef = ref(storage, 'images/' + resim?.name + '-' + nanoid());
@@ -99,7 +99,7 @@
 					await itemCreator(
 						approved,
 						slug,
-						seçilenKategori,
+						selectedCategory,
 						isim,
 						açıklama,
 						{
@@ -123,7 +123,7 @@
 			// const resimAdı = resim[0]?.name;
 			// console.log(resim);
 		} catch (error) {
-			alert('BAŞARISIZ: ' + error?.message);
+			console.log('BAŞARISIZ: ' + error?.message);
 		}
 	};
 </script>
@@ -132,34 +132,32 @@
 	<title>Çift Dikiş | Admin Paneli</title>
 </svelte:head>
 
-<div class="text-center text-xl">İlan ver</div>
+<!-- <div class="text-center text-xl">Bu sayfadan dilediğiniz gibi ilan gönderebilirsiniz.</div> -->
 
-<div class="flex justify-center items-center flex-col gap-5">
+<form
+	on:submit|preventDefault={databaseKaydet}
+	class="flex justify-center items-center flex-col gap-5"
+>
 	<div class="dropdown dropdown-right dropdown-hover">
 		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		<!-- svelte-ignore a11y-label-has-associated-control -->
-		<label tabindex="0" class="btn btn-secondary m-1"
-			>{seçilenKategori ? seçilenKategori : 'Ürün kategorisi seç'}</label
-		>
-		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-		<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-			{#each Object.keys(kategoriler) as kategoriKey}
-				<li>
-					<!-- svelte-ignore a11y-missing-attribute -->
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<a
-						on:click={() => {
-							kategoriSeç(kategoriKey);
-						}}>{kategoriler[kategoriKey]}</a
-					>
-				</li>
-			{/each}
-		</ul>
+		<div>
+			<select
+				bind:value={selectedCategory}
+				class="bg-primary select select-primary w-full max-w-xs"
+			>
+				<option disabled selected>Kategori seçiniz</option> -->
+				{#each Object.keys(kategoriler) || [] as kategoriKey}
+					<option>{kategoriler[kategoriKey]}</option>
+				{/each}
+			</select>
+		</div>
 	</div>
 	<div>
 		<input
 			bind:value={isim}
 			type="text"
+			required
 			placeholder="Ürün ismi"
 			class="input input-bordered input-warning w-full max-w-xs"
 		/>
@@ -168,6 +166,7 @@
 		<input
 			bind:value={tagsString}
 			type="text"
+			required
 			placeholder="kadın, erkek, çocuk"
 			class="input input-bordered input-warning w-full max-w-xs"
 		/>
@@ -176,6 +175,7 @@
 		<input
 			bind:value={açıklama}
 			type="text"
+			required
 			placeholder="Ürün açıklaması"
 			class="input input-bordered input-warning w-full max-w-xs"
 		/>
@@ -184,7 +184,8 @@
 		<div>
 			<input
 				bind:value={fiyat}
-				type="text"
+				type="number"
+				required
 				placeholder="TL"
 				class="input input-bordered input-warning w-full max-w-xs"
 			/>
@@ -193,7 +194,10 @@
 		<div>
 			<input
 				bind:value={kurus}
-				type="text"
+				type="number"
+				size="2"
+				maxlength="2"
+				max="99"
 				placeholder="Kuruş"
 				class="input input-bordered input-warning w-full max-w-xs"
 			/>
@@ -203,6 +207,7 @@
 	<div>
 		<input
 			bind:value={amount}
+			required
 			type="text"
 			placeholder="Stok sayısı"
 			class="input input-bordered input-warning w-full max-w-xs"
@@ -238,6 +243,8 @@
 			<input
 				bind:files={resim}
 				type="file"
+				required
+				accept="image/*"
 				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"
 			/>
 			<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -253,4 +260,4 @@
 	{:else}
 		<button on:click={databaseKaydet} class="btn btn-outline btn-secondary">Kaydet</button>
 	{/if}
-</div>
+</form>

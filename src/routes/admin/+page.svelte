@@ -41,50 +41,56 @@
 					return product.approved === false;
 				}) as p}
 					<!-- <div class="flex flex-row justify-center items-center gap-5 p-2"> -->
-						<img class="rounded-xl h-32 mr-2 m-auto" src={p.imgLink} alt="" />
-						<div class="m-auto">
-							<div>Ürün adı: {p.productName}</div>
-							<div>Satıcı: {p.seller.displayName}</div>
-							<div>İlan tarihi: {moment(p.createdAt).format('LLL')}</div>
-							{#if p.tags}
-								<div>Etiketler: {p?.tags?.join(', ')}</div>
-							{/if}
+					<img class="rounded-xl h-32 mr-2 m-auto" src={p.imgLink} alt="" />
+					<div class="m-auto">
+						<div>Ürün adı: {p.productName}</div>
+						<div>Satıcı: {p.seller.displayName}</div>
+						<div>İlan tarihi: {moment(p.createdAt).format('LLL')}</div>
+						{#if p.tags}
+							<div>Etiketler: {p?.tags?.join(', ')}</div>
+						{/if}
+					</div>
+					<div class="grid grid-cols-2 gap-2 m-auto">
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div
+							on:click={async () => {
+								await approveProduct(p.id);
+								window.location.reload();
+							}}
+							class="btn btn-warning btn-outline"
+						>
+							Onay ver
 						</div>
-						<div class="grid grid-cols-2 gap-2 m-auto">
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<div
-								on:click={async () => {
-									await approveProduct(p.id);
-									window.location.reload();
-								}}
-								class="btn btn-warning btn-outline"
-							>
-								Onay ver
-							</div>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
-							<div
-								on:click={async () => {
-									await removeProduct(p.id);
-									window.location.reload();
-								}}
-								class="btn btn-error btn-outline"
-							>
-								Sil
-							</div>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div
+							on:click={async () => {
+								await removeProduct(p.id);
+								window.location.reload();
+							}}
+							class="btn btn-error btn-outline"
+						>
+							Sil
 						</div>
+					</div>
 					<!-- </div> -->
 				{/each}
 			</div>
 		</div>
 		<div class="w-1/2 border p-5 rounded">
 			<div class="p-2 font-bold">Satıcı ekle</div>
-			<div>
+			<form
+				on:submit|preventDefault={() => {
+					satıcıYarat(satıcıEmail);
+				}}
+			>
 				<input
 					bind:value={satıcıEmail}
+					required
 					class="w-1/2 rounded"
-					type="text"
+					type="email"
 					placeholder="Satıcı emailini girin"
 				/>
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
 					on:click={() => {
 						satıcıYarat(satıcıEmail);
@@ -93,7 +99,7 @@
 				>
 					Kaydet
 				</div>
-			</div>
+			</form>
 			<div class="flex flex-col justify-center items-center gap-2">
 				<div class="p-2 font-bold mt-5">Satıcılar</div>
 				<div class="grid grid-cols-2 gap-2 m-auto">
