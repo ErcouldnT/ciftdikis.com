@@ -14,6 +14,7 @@
 		satıcıİsteğiniSil
 	} from '../../api/sellersApi';
 	import { approveProduct, removeProduct } from '../../api/itemsApi';
+	import project from '../../config/project';
 
 	let satıcılar = [];
 	let satıcıİstekleri = [];
@@ -49,6 +50,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{project.name} | Yönetim merkezi</title>
+</svelte:head>
+
 <div class="text-center">
 	<div class="p-5 text-xl">Yönetim Merkezi</div>
 
@@ -61,12 +66,13 @@
 				}) as p}
 					<!-- <div class="flex flex-row justify-center items-center gap-5 p-2"> -->
 					<img class="rounded-xl h-32 mr-2 m-auto" src={p.imgLink} alt="" />
-					<div class="m-auto">
-						<div>Ürün adı: {p.productName}</div>
+					<div class="text-left">
+						<div>Ürün: {p.productName}</div>
 						<div>Satıcı: {p.seller.displayName}</div>
-						<div>İlan tarihi: {moment(p.createdAt).format('LLL')}</div>
+						<div>Tarih: {moment(p.createdAt).format('LL')}</div>
+						<div>Saat: {moment(p.createdAt).format('LT')}</div>
 						{#if p.tags}
-							<div>Etiketler: {p?.tags?.join(', ')}</div>
+							<div>Etiket: {p?.tags?.join(', ')}</div>
 						{/if}
 					</div>
 					<div class="grid grid-cols-2 gap-2 m-auto">
@@ -148,7 +154,7 @@
 				{#each satıcıİstekleri as istek}
 					<div class="flex flex-col border rounded p-2 relative">
 						<div>Email: {istek.email}</div>
-						<div>Mağaza adı:{istek.storeName}</div>
+						<div>Mağaza adı: {istek.storeName}</div>
 						<div>Adres: {istek.address}</div>
 						<div>Vergi no: {istek.vergiNo}</div>
 						<div>Şehir: {istek.city}</div>

@@ -111,9 +111,11 @@
 		</form>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
-		<a href="/satici">
-			<div class="btn btn-primary">Satıcı ol</div>
-		</a>
+		{#if !isAdmin || !isSeller}
+			<a href="/satici">
+				<div class="btn btn-primary">Satıcı ol</div>
+			</a>
+		{/if}
 		<!-- <a href="/favorilerim">
 			<i class="fa fa-heart-o text-xl" aria-hidden="true"></i>
 		</a> -->
