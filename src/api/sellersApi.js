@@ -78,7 +78,7 @@ export const satıcıİsteğiGönder = async (storeName, address, vergiNo, city,
 			vergiNo,
 			city,
 			email,
-			approved: false,
+			approved: false
 		});
 		console.log('Satıcı isteği gönderildi: ', docRef.id);
 	} catch (e) {
@@ -97,4 +97,8 @@ export const satıcıİstekleriniGetir = async () => {
 	// data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
 	return items;
+};
+
+export const satıcıİsteğiniSil = async (id) => {
+	await deleteDoc(doc(db, 'satıcı-istekleri', id));
 };

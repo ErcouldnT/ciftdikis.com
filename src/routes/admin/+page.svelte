@@ -1,4 +1,5 @@
 <script>
+	import RemoveButton from './../../components/RemoveButton.svelte';
 	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import 'moment/dist/locale/tr?client';
@@ -9,7 +10,8 @@
 		allSellers,
 		sellerCreator,
 		removeSeller,
-		satıcıİstekleriniGetir
+		satıcıİstekleriniGetir,
+		satıcıİsteğiniSil
 	} from '../../api/sellersApi';
 	import { approveProduct, removeProduct } from '../../api/itemsApi';
 
@@ -25,6 +27,11 @@
 	const satıcıİstekleriniAl = async () => {
 		const isteklerVerisi = await satıcıİstekleriniGetir();
 		satıcıİstekleri = [...isteklerVerisi];
+	};
+
+	const isteğiSil = async (id) => {
+		await satıcıİsteğiniSil(id);
+		window.location.reload();
 	};
 
 	const satıcıYarat = async (email) => {
@@ -139,12 +146,16 @@
 			<div class="p-2 font-bold">Satıcı istekleri</div>
 			<div class="flex flex-col gap-5">
 				{#each satıcıİstekleri as istek}
-					<div class="flex flex-col border rounded p-2">
+					<div class="flex flex-col border rounded p-2 relative">
 						<div>Email: {istek.email}</div>
 						<div>Mağaza adı:{istek.storeName}</div>
 						<div>Adres: {istek.address}</div>
 						<div>Vergi no: {istek.vergiNo}</div>
 						<div>Şehir: {istek.city}</div>
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
+						<div on:click={() => isteğiSil(istek.id)}>
+							<RemoveButton />
+						</div>
 					</div>
 				{/each}
 			</div>

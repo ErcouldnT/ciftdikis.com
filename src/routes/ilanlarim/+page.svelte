@@ -1,16 +1,21 @@
 <script>
 	import moment from 'moment';
 	import 'moment/dist/locale/tr?client';
+	import { removeProduct } from '../../api/itemsApi';
+	import RemoveButton from '../../components/RemoveButton.svelte';
 	import { user } from './../../stores.js';
 	import { allProducts } from './../../stores/products.js';
 
 	// moment.locale('tr');
+
+	const ilanıSil = async (id) => {
+		await removeProduct(id);
+		window.location.reload();
+	};
 </script>
 
 <div class="text-center">
-	<div class="text-center text-xl">
-		İlanlarım
-	</div>
+	<div class="text-center text-xl">İlanlarım</div>
 
 	<div class="grid grid-cols-2 gap-4 w-1/2 m-auto">
 		{#each $allProducts.filter((p) => {
@@ -20,7 +25,15 @@
 			<!-- <div> -->
 			<img class="h-36 m-auto" src={product.imgLink} alt="" />
 			<!-- </div> -->
-			<div class="m-auto">
+			<div class="m-auto relative">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<div
+					on:click={() => {
+						ilanıSil(product.id);
+					}}
+				>
+					<RemoveButton />
+				</div>
 				<div>{product.category}</div>
 				<div>{product.productName}</div>
 				<div>{product.price}₺</div>
