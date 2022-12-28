@@ -46,7 +46,7 @@
 					<figure><img class="h-72 rounded-xl" src={item.imgLink} alt="Ürün" /></figure>
 					<div class="card-body">
 						<h2 class="card-title">{item.productName}</h2>
-						<p class="font-bold text-2xl">{Number(item.price).toFixed(0)} ₺</p>
+						<p class="font-bold text-2xl">{Number(item.price).toFixed(2).replace(".", ",")} ₺</p>
 						<p>Satıcı: <span class="font-bold">{item.seller.displayName}</span></p>
 						<div class="card-actions justify-end">
 							<div class="btn btn-ghost btn-circle">

@@ -15,6 +15,10 @@
 	let product;
 	let selectedColor;
 	let selectedSize;
+	let comment;
+	let comments = [{ text: 'test', id: 1 }];
+
+	$: console.log(comments);
 
 	onMount(async () => {
 		const productData = await getItem(data.slug);
@@ -44,6 +48,12 @@
 
 		favList.push(product);
 		favProductList.set(favList);
+	};
+
+	const yorumGönder = () => {
+		if (!comment) return;
+		comments.push({ text: comment.trim(), id: 2 });
+		comment = '';
 	};
 </script>
 
@@ -112,7 +122,24 @@
 					</div>
 				</div>
 			</div>
-			<div class="p-5 m-auto">Ürün yorumları</div>
+			<div class="p-5 w-full">
+				<div class="text-center mb-2">Ürün yorumları</div>
+				<div>
+					{#each comments as com (com.id)}
+						<div>{com.text}</div>
+					{/each}
+				</div>
+				<form class="flex gap-1 my-2" on:submit|preventDefault={yorumGönder}>
+					<input
+						bind:value={comment}
+						class="w-full rounded-xl"
+						type="text"
+						placeholder="Yorumunuzu buraya yazabilirsiniz..."
+					/>
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<div on:click={yorumGönder} class="btn btn-primary">Gönder</div>
+				</form>
+			</div>
 			<div class="p-5 m-auto">Satıcıya sorulan sorular</div>
 		</div>
 	</div>
