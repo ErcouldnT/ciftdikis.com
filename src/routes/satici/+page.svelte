@@ -1,10 +1,18 @@
 <script>
-  import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
+	import { satıcıİsteğiGönder } from '../../api/sellersApi';
 	import { user } from '../../stores';
 
-	const formuGonder = () => {
+	let storeName;
+	let address;
+	let vergiNo;
+	let city;
+	const email = $user.email;
+
+	const formuGonder = async () => {
+		await satıcıİsteğiGönder(storeName, address, vergiNo, city, email);
 		alert('Teşekkürler, form başarıyla gönderildi.');
-    goto("/")
+		goto('/');
 	};
 </script>
 
@@ -31,20 +39,26 @@
 				<p>gerekmektedir.</p>
 			</div>
 		</div>
-		<div class="m-auto min-w-full">
+		<form on:submit|preventDefault={formuGonder} class="m-auto min-w-full">
 			<div class="p-7 rounded-2xl flex flex-col gap-2 justify-center items-center">
 				<div class="form-control w-full max-w-xs">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+
 					<label class="label">
 						<span class="label-text">Mağaza adınız</span>
 						<span class="label-text-alt italic font-light">(zorunlu)</span>
 					</label>
 					<input
+						bind:value={storeName}
 						type="text"
+						required
 						placeholder=""
 						class="input input-warning input-bordered w-full max-w-xs"
 					/>
 				</div>
 				<div class="form-control w-full max-w-xs">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+
 					<label class="label">
 						<span class="label-text">Mağaza adresiniz</span>
 						<span class="label-text-alt italic font-light">(zorunlu)</span>
@@ -54,33 +68,46 @@
           placeholder=""
           class="input input-warning input-bordered w-full max-w-xs"
         /> -->
-					<textarea class="textarea textarea-warning" placeholder="" />
+					<textarea
+						bind:value={address}
+						class="textarea textarea-warning"
+						placeholder=""
+						required
+					/>
 				</div>
 				<div class="form-control w-full max-w-xs">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
 						<span class="label-text">Vergi numarası</span>
 						<span class="label-text-alt italic font-light">(zorunlu)</span>
 					</label>
 					<input
-						type="text"
+						bind:value={vergiNo}
+						type="number"
+						required
 						placeholder=""
 						class="input input-warning input-bordered w-full max-w-xs"
 					/>
 				</div>
 				<div class="form-control w-full max-w-xs">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
 						<span class="label-text">Şehir</span>
 						<span class="label-text-alt italic font-light">(zorunlu)</span>
 					</label>
 					<input
+						bind:value={city}
 						type="text"
+						required
 						placeholder=""
 						class="input input-warning input-bordered w-full max-w-xs"
 					/>
 				</div>
-				<div on:click={formuGonder} class="btn btn-primary mt-3 w-full max-w-xs">Formu Gönder</div>
+				<button on:submit={formuGonder} class="btn btn-primary mt-3 w-full max-w-xs"
+					>Formu Gönder</button
+				>
 			</div>
-		</div>
+		</form>
 	</div>
 {:else}
 	<div class="text-center">Lütfen öncelikle sisteme giriş yapınız.</div>

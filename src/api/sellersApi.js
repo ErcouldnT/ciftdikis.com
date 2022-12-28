@@ -69,3 +69,32 @@ export const getSeller = async (email) => {
 export const removeSeller = async (id) => {
 	await deleteDoc(doc(db, 'satıcılar', id));
 };
+
+export const satıcıİsteğiGönder = async (storeName, address, vergiNo, city, email) => {
+	try {
+		const docRef = await addDoc(collection(db, 'satıcı-istekleri'), {
+			storeName,
+			address,
+			vergiNo,
+			city,
+			email,
+			approved: false,
+		});
+		console.log('Satıcı isteği gönderildi: ', docRef.id);
+	} catch (e) {
+		console.error('Satıcı isteği başarısız: ', e);
+	}
+};
+
+export const satıcıİstekleriniGetir = async () => {
+	let items = [];
+
+	const data = await getDocs(collection(db, 'satıcı-istekleri'));
+	data.forEach((doc) => {
+		items.push({ ...doc.data(), id: doc.id });
+	});
+
+	// data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+	return items;
+};

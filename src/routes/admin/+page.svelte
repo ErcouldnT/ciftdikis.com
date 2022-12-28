@@ -5,15 +5,26 @@
 	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
 	import { allItems } from '../../api/itemsApi?client';
-	import { allSellers, sellerCreator, removeSeller } from '../../api/sellersApi';
+	import {
+		allSellers,
+		sellerCreator,
+		removeSeller,
+		satıcıİstekleriniGetir
+	} from '../../api/sellersApi';
 	import { approveProduct, removeProduct } from '../../api/itemsApi';
 
 	let satıcılar = [];
+	let satıcıİstekleri = [];
 	let satıcıEmail;
 
 	const satıcılarıAl = async () => {
 		const sellersData = await allSellers();
 		satıcılar = [...sellersData];
+	};
+
+	const satıcıİstekleriniAl = async () => {
+		const isteklerVerisi = await satıcıİstekleriniGetir();
+		satıcıİstekleri = [...isteklerVerisi];
 	};
 
 	const satıcıYarat = async (email) => {
@@ -22,6 +33,7 @@
 	};
 
 	satıcılarıAl();
+	satıcıİstekleriniAl();
 
 	onMount(async () => {
 		const itemsData = await allItems();
@@ -33,8 +45,8 @@
 <div class="text-center">
 	<div class="p-5 text-xl">Yönetim Merkezi</div>
 
-	<div class="flex flex-row justify-center gap-5">
-		<div class="w-1/2 border p-5 rounded">
+	<div class="grid grid-cols-3 gap-4">
+		<div class="border p-5 rounded">
 			<div class="p-2 font-bold">Ürün onayla</div>
 			<div class="grid grid-cols-3 gap-2 m-auto">
 				{#each $allProducts.filter((product) => {
@@ -76,7 +88,7 @@
 				{/each}
 			</div>
 		</div>
-		<div class="w-1/2 border p-5 rounded">
+		<div class="border p-5 rounded">
 			<div class="p-2 font-bold">Satıcı ekle</div>
 			<form
 				on:submit|preventDefault={() => {
@@ -107,6 +119,7 @@
 						<!-- <div class="grid grid-cols-2"> -->
 						<div class="m-auto">{satıcı.email}</div>
 						<div>
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<div
 								on:click={async () => {
 									await removeSeller(satıcı.id);
@@ -120,6 +133,20 @@
 						<!-- </div> -->
 					{/each}
 				</div>
+			</div>
+		</div>
+		<div class="border p-5 rounded">
+			<div class="p-2 font-bold">Satıcı istekleri</div>
+			<div class="flex flex-col gap-5">
+				{#each satıcıİstekleri as istek}
+					<div class="flex flex-col border rounded p-2">
+						<div>Email: {istek.email}</div>
+						<div>Mağaza adı:{istek.storeName}</div>
+						<div>Adres: {istek.address}</div>
+						<div>Vergi no: {istek.vergiNo}</div>
+						<div>Şehir: {istek.city}</div>
+					</div>
+				{/each}
 			</div>
 		</div>
 	</div>
