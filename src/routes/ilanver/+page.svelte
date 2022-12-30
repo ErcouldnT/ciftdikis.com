@@ -144,6 +144,7 @@
 		<div>
 			<select
 				bind:value={selectedCategory}
+				required
 				class="bg-primary select select-primary w-full max-w-xs"
 			>
 				<option disabled selected>Kategori seçiniz</option> -->

@@ -70,7 +70,7 @@ export const removeSeller = async (id) => {
 	await deleteDoc(doc(db, 'satıcılar', id));
 };
 
-export const satıcıİsteğiGönder = async (storeName, address, vergiNo, city, email) => {
+export const satıcıİsteğiGönder = async (storeName, address, vergiNo, city, email, phoneNumber) => {
 	try {
 		const docRef = await addDoc(collection(db, 'satıcı-istekleri'), {
 			storeName,
@@ -78,6 +78,7 @@ export const satıcıİsteğiGönder = async (storeName, address, vergiNo, city,
 			vergiNo,
 			city,
 			email,
+			phoneNumber,
 			approved: false
 		});
 		console.log('Satıcı isteği gönderildi: ', docRef.id);

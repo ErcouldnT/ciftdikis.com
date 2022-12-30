@@ -156,6 +156,7 @@
 						<div>Email: {istek.email}</div>
 						<div>Mağaza adı: {istek.storeName}</div>
 						<div>Adres: {istek.address}</div>
+						<div>Tel: {istek.phoneNumber}</div>
 						<div>Vergi no: {istek.vergiNo}</div>
 						<div>Şehir: {istek.city}</div>
 						<!-- svelte-ignore a11y-click-events-have-key-events -->

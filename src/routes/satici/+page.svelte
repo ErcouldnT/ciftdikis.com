@@ -7,10 +7,11 @@
 	let address;
 	let vergiNo;
 	let city;
+	let phoneNumber;
 	const email = $user.email;
 
 	const formuGonder = async () => {
-		await satıcıİsteğiGönder(storeName, address, vergiNo, city, email);
+		await satıcıİsteğiGönder(storeName, address, vergiNo, city, email, phoneNumber);
 		alert('Teşekkürler, form başarıyla gönderildi.');
 		goto('/');
 	};
@@ -73,6 +74,20 @@
 						class="textarea textarea-warning"
 						placeholder=""
 						required
+					/>
+				</div>
+				<div class="form-control w-full max-w-xs">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
+					<label class="label">
+						<span class="label-text">Telefon numarası</span>
+						<span class="label-text-alt italic font-light">(zorunlu)</span>
+					</label>
+					<input
+						bind:value={phoneNumber}
+						type="number"
+						required
+						placeholder="537..."
+						class="input input-warning input-bordered w-full max-w-xs"
 					/>
 				</div>
 				<div class="form-control w-full max-w-xs">
