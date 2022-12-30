@@ -18,13 +18,19 @@
 	let comment;
 	let comments = [{ text: 'test', id: 1 }];
 
-	$: console.log(comments);
+	// $: console.log(comments);
 
 	onMount(async () => {
 		const productData = await getItem(data.slug);
 		product = { ...productData };
 		// console.log(product);
 		if (!product.productName) goto('/');
+
+		// console.log(product.imgLink);
+		// Fix for old products.
+		if (typeof product.imgLink === 'string') {
+			product.imgLink = [product.imgLink];
+		}
 	});
 
 	const sepeteEkle = () => {
@@ -68,7 +74,37 @@
 		<div class="border card grid grid-cols-2 w-[1000px]">
 			<div class="col-span-1 m-auto">
 				<div class="p-5">
-					<img class="rounded-xl border-2 border-primary" src={product.imgLink} alt="" />
+					<p class="italic font-light text-center p-2">{product.imgLink.length} adet görsel mevcut.</p>
+					<div class="w-full carousel rounded-box">
+						{#each product.imgLink as image}
+							<div class="carousel-item w-full">
+								<img src={image} class="w-full" alt="" />
+							</div>
+						{/each}
+					</div>
+					<!-- <div class="h-96 carousel carousel-vertical rounded-box">
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="col-span-1">

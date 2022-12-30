@@ -16,7 +16,8 @@
 	let fiyat;
 	let kurus = '00';
 	let selectedCategory;
-	let resim;
+	let resimler;
+	let resimLinkleri = [];
 	let amount;
 	let colors = [];
 	let sizes = [];
@@ -68,7 +69,18 @@
 		return tagler;
 	};
 
-	const databaseKaydet = () => {
+	const ImageToUrl = async (images) => {
+		for (let i = 0; i < images.length; i++) {
+			const resim = images[i];
+			const imageRef = await ref(storage, 'images/' + resim?.name + '-' + nanoid());
+			const snapshot = await uploadBytes(imageRef, resim);
+			const link = await getDownloadURL(snapshot.ref);
+			resimLinkleri.push(link);
+			console.log(link);
+		}
+	};
+
+	const databaseKaydet = async () => {
 		try {
 			if (!selectedCategory || selectedCategory.toLowerCase().includes('seç'))
 				return alert('Lütfen kategori seçiniz.');
@@ -88,37 +100,43 @@
 			if (!sizes.length) return alert('Lütfen en az bir beden seçiniz.');
 
 			loading = true;
-
-			if (!resim[0]) return alert('Lütfen resim yükleyiniz.');
-			resim = resim[0];
-
 			const slug = isim.trim().replaceAll(' ', '-').toLowerCase();
-			const imageRef = ref(storage, 'images/' + resim?.name + '-' + nanoid());
-			uploadBytes(imageRef, resim).then((snapshot) => {
-				getDownloadURL(snapshot.ref).then(async (link) => {
-					await itemCreator(
-						approved,
-						slug,
-						selectedCategory,
-						isim,
-						açıklama,
-						{
-							displayName: $user.displayName,
-							email: $user.email,
-							photoURL: $user.photoURL
-						},
-						ondalıklıFiyat,
-						link,
-						tags,
-						colors,
-						sizes,
-						amount
-					);
-					alert('Ürün kaydetme başarılı.');
-					// loading = false;
-					goto('/');
-				});
-			});
+
+			resimler = Object.values(resimler);
+			// console.log(resimler);
+			// debugger;
+
+			if (!resimler.length) return alert('Lütfen resim yükleyiniz.');
+			// resim = resimler[0];
+
+			// const resimLinkleri = [];
+
+			await ImageToUrl(resimler);
+
+			// console.log(resimLinkleri);
+			// debugger;
+
+			await itemCreator(
+				approved,
+				slug,
+				selectedCategory.toLowerCase(),
+				isim,
+				açıklama,
+				{
+					displayName: $user.displayName,
+					email: $user.email,
+					photoURL: $user.photoURL
+				},
+				ondalıklıFiyat,
+				resimLinkleri,
+				tags,
+				colors,
+				sizes,
+				amount
+			);
+			alert('Ürün kaydetme başarılı.');
+			// loading = false;
+			goto('/');
 
 			// const resimAdı = resim[0]?.name;
 			// console.log(resim);
@@ -242,8 +260,9 @@
 				<!-- <span class="label-text-alt">Alt label</span> -->
 			</label>
 			<input
-				bind:files={resim}
+				bind:files={resimler}
 				type="file"
+				multiple
 				required
 				accept="image/*"
 				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"

@@ -65,7 +65,7 @@
 					return product.approved === false;
 				}) as p}
 					<!-- <div class="flex flex-row justify-center items-center gap-5 p-2"> -->
-					<img class="rounded-xl h-32 mr-2 m-auto" src={p.imgLink} alt="" />
+					<img class="rounded-xl h-32 mr-2 m-auto" src={p.imgLink[0]} alt="" />
 					<div class="text-left">
 						<div>Ürün: {p.productName}</div>
 						<div>Satıcı: {p.seller.displayName}</div>
