@@ -8,7 +8,9 @@
 	let vergiNo;
 	let city;
 	let phoneNumber;
-	const email = $user.email;
+	let email;
+
+	$: email = $user?.email;
 
 	const formuGonder = async () => {
 		await satıcıİsteğiGönder(storeName, address, vergiNo, city, email, phoneNumber);
