@@ -18,6 +18,9 @@
 	let comment;
 	let comments = [{ text: 'test', id: 1 }];
 
+	// let pictureSelected = false;
+	let imageSelected;
+
 	// $: console.log(comments);
 
 	onMount(async () => {
@@ -72,17 +75,55 @@
 {#if product}
 	<div in:fly={{ y: 200, duration: 2000 }} class="flex justify-center items-center ">
 		<div class="border card grid grid-cols-2 w-[1000px]">
-			<div class="col-span-1 m-auto">
-				<div class="p-5">
-					<p class="italic font-light text-center p-2">{product.imgLink.length} adet görsel mevcut.</p>
-					<div class="w-full carousel rounded-box">
+			<div class="col-span-1 m-auto w-full h-full p-5">
+				<!-- <div class="h-96 carousel carousel-vertical rounded-box">
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+						<div class="carousel-item h-full">
+							<img src="https://placeimg.com/256/400/arch" />
+						</div> 
+					</div> -->
+
+				{#if !imageSelected && product.imgLink.length > 1}
+				<div class="flex justify-center items-center">
+					<div class="h-96 carousel carousel-vertical rounded-box">
 						{#each product.imgLink as image}
-							<div class="carousel-item w-full">
-								<img src={image} class="w-full" alt="" />
+							<div class="carousel-item h-full justify-center">
+								<!-- class="w-full" for img tag -->
+								<img class="rounded-box border-2 border-primary" src={image} alt="" />
 							</div>
 						{/each}
 					</div>
-					<!-- <div class="h-96 carousel carousel-vertical rounded-box">
+				</div>
+				{:else if product.imgLink.length === 1}
+					<img class="rounded-box border-2 border-primary" src={product.imgLink[0]} alt="" />
+				{:else}
+					<img class="rounded-box border-2 border-primary w-full object-contain" src={imageSelected} alt="" />
+				{/if}
+
+				<!-- Küçük resimler -->
+				{#if product.imgLink.length > 1}
+					<!-- <p class="italic font-light text-center p-5">
+							{product.imgLink.length} adet görsel mevcut.
+						</p> -->
+
+					<div class="flex flex-wrap justify-center items-center gap-2 p-5">
+						{#each product.imgLink as imageSrc}
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<img
+								on:click={() => {
+									imageSelected = imageSrc;
+								}}
+								class="h-16 w-16 cursor-pointer rounded object-contain"
+								src={imageSrc}
+								alt=""
+							/>
+						{/each}
+					</div>
+				{/if}
+
+				<!-- <div class="h-96 carousel carousel-vertical rounded-box">
 						<div class="carousel-item h-full">
 							<img src="https://placeimg.com/256/400/arch" />
 						</div> 
@@ -105,7 +146,6 @@
 							<img src="https://placeimg.com/256/400/arch" />
 						</div>
 					</div> -->
-				</div>
 			</div>
 			<div class="col-span-1">
 				<div class="absolute right-0 p-5">
