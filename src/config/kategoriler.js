@@ -9,5 +9,6 @@ export default {
 	mont: 'Mont',
 	'takim-elbise': 'Takım Elbise & Smokin',
 	abiye: 'Abiye',
-	elbise: 'Elbise'
+	elbise: 'Elbise',
+	'sevimli-dostlar': '🐾  Sevimli Dostlar'
 };
