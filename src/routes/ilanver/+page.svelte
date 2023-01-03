@@ -22,6 +22,10 @@
 	let colors = [];
 	let sizes = [];
 
+	function getKeyByValue(object, value) {
+		return Object.keys(object).find((key) => object[key] === value);
+	}
+
 	const uiColors = [
 		{ name: 'Kırmızı', checked: false },
 		{ name: 'Beyaz', checked: false },
@@ -119,7 +123,7 @@
 			await itemCreator(
 				approved,
 				slug,
-				selectedCategory.toLowerCase(),
+				getKeyByValue(kategoriler, selectedCategory),
 				isim,
 				açıklama,
 				{
