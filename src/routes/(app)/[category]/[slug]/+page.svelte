@@ -155,7 +155,7 @@
 				</div>
 				<div class="p-10 mt-10">
 					<div class="text-2xl uppercase">{product.productName}</div>
-					<div class="text-3xl">{Number(product.price).toFixed(2)} ₺</div>
+					<div class="text-3xl">{product.price} ₺</div>
 					<div class="text-sm font-light">
 						Stok durumu: <span class="font-normal">{product.amount || 'Mevcut'}</span>
 					</div>

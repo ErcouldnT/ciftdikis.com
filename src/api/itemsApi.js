@@ -5,7 +5,7 @@ import {
 	// doc,
 	// setDoc,
 	addDoc,
-	// getDoc,
+	getDoc,
 	getDocs,
 	doc,
 	updateDoc,
@@ -36,7 +36,7 @@ export const itemCreator = async (
 			productName,
 			desc,
 			seller,
-			price: Number(price),
+			price: Number(price).toFixed(2).replace('.', ','),
 			imgLink,
 			createdAt: Date.now(),
 			comments: [],
@@ -49,6 +49,39 @@ export const itemCreator = async (
 	} catch (e) {
 		console.error('Ürün kaydı başarısız: ', e);
 	}
+};
+
+export const updateProduct = async (
+	id,
+	approved,
+	slug,
+	category,
+	productName,
+	desc,
+	seller,
+	price,
+	imgLink,
+	tags,
+	colors,
+	sizes,
+	amount
+) => {
+	const productRef = doc(db, 'ürünler', id);
+	await updateDoc(productRef, {
+		approved,
+		slug,
+		category,
+		productName,
+		desc,
+		seller,
+		price: Number(price).toFixed(2).replace('.', ','),
+		imgLink,
+		updatedAt: Date.now(),
+		tags,
+		colors,
+		sizes,
+		amount: Number(amount)
+	});
 };
 
 export const allItems = async () => {
@@ -104,4 +137,15 @@ export const approveProduct = async (id) => {
 
 export const removeProduct = async (id) => {
 	await deleteDoc(doc(db, 'ürünler', id));
+};
+
+export const getItemById = async (id) => {
+	const docRef = doc(db, 'ürünler', id);
+	const docSnap = await getDoc(docRef);
+
+	if (docSnap.exists()) {
+		return { ...docSnap.data(), id };
+	} else {
+		console.log('Ürün bulunamadı!');
+	}
 };

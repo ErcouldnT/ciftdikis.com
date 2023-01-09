@@ -1,24 +1,29 @@
 <script>
+	import { editProduct } from './../../../stores/edit.js';
 	import { goto } from '$app/navigation';
 	import { nanoid } from 'nanoid';
-	import { user } from '../../stores';
-	import { isAdmin } from '../../stores/user';
-	import { itemCreator } from '../../api/itemsApi';
-	import { storage } from '../../firebase?client';
+	import { user } from '../../../stores';
+	import { isAdmin } from '../../../stores/user';
+	import { updateProduct } from '../../../api/itemsApi';
+	import { storage } from '../../../firebase?client';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
-	import kategoriler from '../../config/kategoriler';
+	import kategoriler from '../../../config/kategoriler';
+	import RemoveButton from '../../../components/RemoveButton.svelte';
 
 	const approved = $isAdmin;
+	const id = $editProduct.id;
 
-	let isim;
-	let tagsString;
-	let açıklama;
-	let fiyat;
-	let kurus = '00';
-	let selectedCategory;
-	let resimler;
-	let resimLinkleri = [];
-	let amount;
+	// console.log($editProduct);
+
+	let isim = $editProduct.productName;
+	let tagsString = $editProduct.tags.join(', ');
+	let açıklama = $editProduct.desc;
+	let fiyat = $editProduct.price.split(",")[0];
+	let kurus = $editProduct.price.split(",")[1];
+	let selectedCategory = kategoriler[$editProduct.category];
+	let resimler = [];
+	let resimLinkleri = $editProduct.imgLink;
+	let amount = $editProduct.amount;
 	let colors = [];
 	let sizes = [];
 
@@ -27,26 +32,26 @@
 	}
 
 	const uiColors = [
-		{ name: 'Kırmızı', checked: false },
-		{ name: 'Beyaz', checked: false },
-		{ name: 'Siyah', checked: false },
-		{ name: 'Yeşil', checked: false },
-		{ name: 'Mavi', checked: false },
-		{ name: 'Lacivert', checked: false },
-		{ name: 'Gri', checked: false },
-		{ name: 'Sarı', checked: false },
-		{ name: 'Turuncu', checked: false },
-		{ name: 'Pembe', checked: false },
+		{ name: 'Kırmızı', checked: $editProduct.colors.includes('Kırmızı') },
+		{ name: 'Beyaz', checked: $editProduct.colors.includes('Beyaz') },
+		{ name: 'Siyah', checked: $editProduct.colors.includes('Siyah') },
+		{ name: 'Yeşil', checked: $editProduct.colors.includes('Yeşil') },
+		{ name: 'Mavi', checked: $editProduct.colors.includes('Mavi') },
+		{ name: 'Lacivert', checked: $editProduct.colors.includes('Lacivert') },
+		{ name: 'Gri', checked: $editProduct.colors.includes('Gri') },
+		{ name: 'Sarı', checked: $editProduct.colors.includes('Sarı') },
+		{ name: 'Turuncu', checked: $editProduct.colors.includes('Turuncu') },
+		{ name: 'Pembe', checked: $editProduct.colors.includes('Pembe') }
 	];
 
 	const uiSizes = [
-		{ name: 'XXS', checked: false },
-		{ name: 'XS', checked: false },
-		{ name: 'S', checked: false },
-		{ name: 'M', checked: false },
-		{ name: 'L', checked: false },
-		{ name: 'XL', checked: false },
-		{ name: 'XXL', checked: false }
+		{ name: 'XXS', checked: $editProduct.sizes.includes('XXS') },
+		{ name: 'XS', checked: $editProduct.sizes.includes('XS') },
+		{ name: 'S', checked: $editProduct.sizes.includes('S') },
+		{ name: 'M', checked: $editProduct.sizes.includes('M') },
+		{ name: 'L', checked: $editProduct.sizes.includes('L') },
+		{ name: 'XL', checked: $editProduct.sizes.includes('XL') },
+		{ name: 'XXL', checked: $editProduct.sizes.includes('XXL') }
 	];
 
 	const choosenColors = () => {
@@ -75,17 +80,19 @@
 	};
 
 	const ImageToUrl = async (images) => {
-		for (let i = 0; i < images.length; i++) {
-			const resim = images[i];
-			const imageRef = await ref(storage, 'images/' + resim?.name + '-' + nanoid());
-			const snapshot = await uploadBytes(imageRef, resim);
-			const link = await getDownloadURL(snapshot.ref);
-			resimLinkleri.push(link);
-			console.log(link);
+		if (images.length) {
+			for (let i = 0; i < images.length; i++) {
+				const resim = images[i];
+				const imageRef = await ref(storage, 'images/' + resim?.name + '-' + nanoid());
+				const snapshot = await uploadBytes(imageRef, resim);
+				const link = await getDownloadURL(snapshot.ref);
+				resimLinkleri.push(link);
+				// console.log(link);
+			}
 		}
 	};
 
-	const databaseKaydet = async () => {
+	const databaseUpdate = async () => {
 		try {
 			if (!selectedCategory || selectedCategory.toLowerCase().includes('seç'))
 				return alert('Lütfen kategori seçiniz.');
@@ -111,17 +118,18 @@
 			// console.log(resimler);
 			// debugger;
 
-			if (!resimler.length) return alert('Lütfen resim yükleyiniz.');
+			if (!resimler.length && !resimLinkleri.length) return alert('Lütfen resim yükleyiniz.');
 			// resim = resimler[0];
 
 			// const resimLinkleri = [];
 
-			await ImageToUrl(resimler);
+			if (resimler.length) await ImageToUrl(resimler);
 
 			// console.log(resimLinkleri);
 			// debugger;
 
-			await itemCreator(
+			await updateProduct(
+				id,
 				approved,
 				slug,
 				getKeyByValue(kategoriler, selectedCategory),
@@ -139,7 +147,7 @@
 				sizes,
 				amount
 			);
-			alert('Ürün kaydetme başarılı.');
+			alert('Ürün güncelleme Admin onayına gönderildi.');
 			// loading = false;
 			goto('/');
 
@@ -158,7 +166,7 @@
 <!-- <div class="text-center text-xl">Bu sayfadan dilediğiniz gibi ilan gönderebilirsiniz.</div> -->
 
 <form
-	on:submit|preventDefault={databaseKaydet}
+	on:submit|preventDefault={databaseUpdate}
 	class="flex justify-center items-center flex-col gap-5"
 >
 	<div class="dropdown dropdown-right dropdown-hover">
@@ -257,6 +265,28 @@
 			</div>
 		{/each}
 	</div>
+
+	<div>
+		<div>Yüklenmiş resimler</div>
+		<div class="flex flex-wrap gap-5">
+			{#each resimLinkleri as img}
+				<!-- content here -->
+				<div class="relative">
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<div
+						on:click={() => {
+							resimLinkleri = resimLinkleri.filter((resim) => resim !== img);
+						}}
+					>
+						<RemoveButton />
+					</div>
+					<img class="w-36" src={img} alt="" />
+				</div>
+			{/each}
+
+		</div>
+	</div>
+
 	<div>
 		<div class="form-control w-full max-w-xs">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -268,7 +298,6 @@
 				bind:files={resimler}
 				type="file"
 				multiple
-				required
 				accept="image/*"
 				class="file-input file-input-bordered file-input-secondary w-full max-w-xs"
 			/>
@@ -283,6 +312,6 @@
 	{#if loading}
 		<progress class="progress w-56" />
 	{:else}
-		<button on:click={databaseKaydet} class="btn btn-outline btn-secondary">Kaydet</button>
+		<button on:click={databaseUpdate} class="btn btn-outline btn-secondary">Kaydet</button>
 	{/if}
 </form>

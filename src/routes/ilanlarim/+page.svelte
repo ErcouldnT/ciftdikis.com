@@ -1,4 +1,6 @@
 <script>
+	import { editProduct } from './../../stores/edit.js';
+	import { goto } from '$app/navigation';
 	import moment from 'moment';
 	import 'moment/dist/locale/tr?client';
 	import { removeProduct } from '../../api/itemsApi';
@@ -36,15 +38,31 @@
 				</div>
 				<div>{product.category}</div>
 				<div>{product.productName}</div>
-				<div>{product.price}₺</div>
+				<div>{product.price} ₺</div>
 				<div>{moment(product.createdAt).format('LLL')}</div>
 				{#if !product.approved}
 					<div class="italic">(Ürün henüz onay aşamasında.)</div>
 				{:else}
 					<div class="italic">
-						(Ürün {moment(product.approvedAt).format('LLL')} tarihinde yayınlandı.)
+						(İlan {moment(product.approvedAt).format('LLL')} tarihinde yayınlandı.)
 					</div>
+					{#if product.updatedAt}
+						<div class="italic">
+							(İlanı {moment(product.updatedAt).format('LLL')} tarihinde güncellediniz.)
+						</div>
+					{/if}
 				{/if}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<div
+					on:click={() => {
+						// console.log(product);
+						editProduct.set(product);
+						goto('ilanver/duzelt/');
+					}}
+					class="btn btn-primary m-2"
+				>
+					İlanı düzenle
+				</div>
 			</div>
 			<!-- </div> -->
 		{:else}
