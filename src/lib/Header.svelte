@@ -212,7 +212,9 @@
 					</ul>
 				</div>
 			{:else}
-				<button on:click={login} class="btn btn-outline btn-warning">Giriş yap</button>
+				<button on:click={() => goto('/giris')} class="btn btn-outline btn-warning"
+					>Giriş yap</button
+				>
 			{/if}
 		</div>
 	</div>
