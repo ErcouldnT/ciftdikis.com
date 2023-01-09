@@ -19,7 +19,7 @@
 	let tagsString = $editProduct.tags.join(', ');
 	let açıklama = $editProduct.desc;
 	let fiyat = String($editProduct.price).split(",")[0];
-	let kurus = String($editProduct.price).split(",")[1];
+	let kurus = String($editProduct.price).split(",")[1] || "00";
 	let selectedCategory = kategoriler[$editProduct.category];
 	let resimler = [];
 	let resimLinkleri = $editProduct.imgLink;
