@@ -167,19 +167,24 @@
 
 			{#if $isLoggedIn}
 				<div class="dropdown dropdown-end">
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label tabindex="0" class="btn btn-ghost btn-circle avatar">
 						<div class="w-10 rounded-full">
+							<!-- svelte-ignore a11y-missing-attribute -->
 							<img src={$user.photoURL} />
 						</div>
 					</label>
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
 						class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li>
+							<!-- svelte-ignore a11y-missing-attribute -->
 							<a
 								><span class="font-bold text-primary"
-									>Merhaba, {$user.displayName.split(' ')[0]}!</span
+									>Merhaba, {$user?.displayName?.split(' ')[0]}!</span
 								></a
 							>
 						</li>
@@ -208,6 +213,8 @@
 						<li><a href="/bilgilerim">Kullanıcı bilgilerim</a></li>
 						<li><a href="/siparislerim">Siparişlerim</a></li>
 						<li><a href="/favorilerim">Favorilerim</a></li>
+						<!-- svelte-ignore a11y-missing-attribute -->
+						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						<li on:click={logout}><a>Çıkış</a></li>
 					</ul>
 				</div>

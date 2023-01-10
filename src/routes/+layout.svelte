@@ -30,7 +30,7 @@
 			admins.push(doc.data());
 		});
 		admins.forEach((admin) => {
-			if (admin.email === $user.email) {
+			if (admin?.email === $user?.email) {
 				isAdmin.set(true);
 			}
 		});
@@ -42,7 +42,7 @@
 			sellers.push(doc.data());
 		});
 		sellers.forEach((seller) => {
-			if (seller.email === $user.email) {
+			if (seller?.email === $user?.email) {
 				isSeller.set(true);
 			}
 		});

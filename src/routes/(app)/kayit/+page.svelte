@@ -1,10 +1,44 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { shoppingCart, user, isLoggedIn, favProductList } from '../../../stores';
-	import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth?client';
+	import {
+		signInWithPopup,
+		GoogleAuthProvider,
+		createUserWithEmailAndPassword,
+		updateProfile
+	} from 'firebase/auth?client';
 	import { auth } from '../../../firebase?client';
 
-	const login = async () => {
+	let name = '';
+	let surname = '';
+	let email;
+	let password;
+
+	let displayName;
+	$: displayName = name.trim() + ' ' + surname.trim();
+	// let photoURL = '';
+
+	const registerWithEmail = async () => {
+		if (!name) return;
+		if (!surname) return;
+		if (!email) return;
+		if (!password) return;
+		try {
+			const res = await createUserWithEmailAndPassword(auth, email, password);
+			await updateProfile(auth.currentUser, {
+				displayName,
+				photoURL: 'https://api.dicebear.com/5.x/adventurer/png?seed=' + displayName
+			});
+			$user = res.user;
+			$isLoggedIn = true;
+			await goto('/');
+			// window.location.reload();
+		} catch (error) {
+			alert(error.message);
+		}
+	};
+
+	const loginWithGoogle = async () => {
 		try {
 			const provider = new GoogleAuthProvider();
 			const res = await signInWithPopup(auth, provider);
@@ -34,12 +68,12 @@
 				/>
 			</div>
 			<div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-				<form>
+				<form on:submit|preventDefault={registerWithEmail}>
 					<div class="flex flex-row items-center justify-center lg:justify-start">
 						<p class="text-lg mb-0 mr-1">Google ile hemen kayıt ol</p>
 
 						<button
-							on:click={login}
+							on:click={loginWithGoogle}
 							type="button"
 							data-mdb-ripple="true"
 							data-mdb-ripple-color="light"
@@ -73,20 +107,20 @@
 					<!-- Username input -->
 					<div class="mb-6">
 						<input
+							bind:value={name}
 							type="text"
 							required
 							class="form-control block w-full px-4 py-2 text-l font-normal text-primary bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-primary focus:outline-none"
-							id=""
 							placeholder="Ad"
 						/>
 					</div>
 
 					<div class="mb-6">
 						<input
+							bind:value={surname}
 							type="text"
 							required
 							class="form-control block w-full px-4 py-2 text-l font-normal text-primary bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-primary focus:outline-none"
-							id=""
 							placeholder="Soyad"
 						/>
 					</div>
@@ -94,10 +128,10 @@
 					<!-- Email input -->
 					<div class="mb-6">
 						<input
+							bind:value={email}
 							type="email"
 							required
 							class="form-control block w-full px-4 py-2 text-l font-normal text-primary bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-primary focus:outline-none"
-							id=""
 							placeholder="Email"
 						/>
 					</div>
@@ -105,10 +139,10 @@
 					<!-- Password input -->
 					<div class="mb-6">
 						<input
+							bind:value={password}
 							type="password"
 							required
 							class="form-control block w-full px-4 py-2 text-l font-normal text-primary bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-primary focus:outline-none"
-							id=""
 							placeholder="Şifre"
 						/>
 					</div>
@@ -129,6 +163,7 @@
 
 					<div class="text-center lg:text-left">
 						<button
+							on:click={registerWithEmail}
 							type="button"
 							class="inline-block px-7 py-3 btn btn-primary font-medium text-sm leading-snug uppercase rounded shadow-md  hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out"
 						>
