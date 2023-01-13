@@ -41,7 +41,8 @@
 		{ name: 'Gri', checked: $editProduct.colors.includes('Gri') },
 		{ name: 'Sarı', checked: $editProduct.colors.includes('Sarı') },
 		{ name: 'Turuncu', checked: $editProduct.colors.includes('Turuncu') },
-		{ name: 'Pembe', checked: $editProduct.colors.includes('Pembe') }
+		{ name: 'Pembe', checked: $editProduct.colors.includes('Pembe') },
+		{ name: 'Kahverengi', checked: $editProduct.colors.includes('Kahverengi') }
 	];
 
 	const uiSizes = [

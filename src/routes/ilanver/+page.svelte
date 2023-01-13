@@ -37,6 +37,7 @@
 		{ name: 'Sarı', checked: false },
 		{ name: 'Turuncu', checked: false },
 		{ name: 'Pembe', checked: false },
+		{ name: 'Kahverengi', checked: false }
 	];
 
 	const uiSizes = [
