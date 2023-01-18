@@ -1,43 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { shoppingCart, user, isLoggedIn, favProductList } from '../../../stores';
-	import {
-		signInWithPopup,
-		GoogleAuthProvider,
-		signInWithEmailAndPassword
-	} from 'firebase/auth?client';
-	import { auth } from '../../../firebase?client';
 
 	let email;
 	let password;
-
-	const loginWithEmail = async () => {
-		if (!email) return;
-		if (!password) return;
-		try {
-			const res = await signInWithEmailAndPassword(auth, email, password);
-			$user = res.user;
-			$isLoggedIn = true;
-			await goto('/');
-			// window.location.reload();
-		} catch (error) {
-			alert(error.message);
-		}
-	};
-
-	const loginWithGoogle = async () => {
-		try {
-			const provider = new GoogleAuthProvider();
-			const res = await signInWithPopup(auth, provider);
-			$user = res.user;
-			$isLoggedIn = true;
-			await goto('/');
-			window.location.reload();
-		} catch (error) {
-			alert(error.message);
-		}
-	};
 
 	onMount(() => {
 		var emailLabel = document.querySelector('#loginEmailLabel'),
@@ -963,7 +928,7 @@
 		</label>
 	</div>
 	<div class="inputGroup inputGroup3">
-		<button on:click={loginWithEmail} id="login">Giriş</button>
+		<button id="login">Giriş</button>
 	</div>
 </form>
 
