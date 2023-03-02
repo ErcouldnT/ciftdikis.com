@@ -111,7 +111,7 @@
 		</form>
 	</div>
 	<div class="navbar-end gap-2 justify-center items-center flex flex-col lg:flex-row">
-		{#if !$isAdmin || !$isSeller}
+		{#if !$isAdmin && !$isSeller}
 			<a href="/satici">
 				<div class="btn btn-primary">Satıcı ol</div>
 			</a>
