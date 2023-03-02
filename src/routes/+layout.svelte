@@ -44,7 +44,7 @@
 		sellers.forEach((seller) => {
 			if (seller?.email === $user?.email && seller.approved) {
 				isSeller.set(true);
-				// storeName.set(seller.storeName || 'Çift Dikiş Market');
+				storeName.set(seller.storeName || 'Çift Dikiş Market');
 			}
 		});
 
