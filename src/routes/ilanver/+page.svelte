@@ -21,6 +21,7 @@
 	let amount;
 	let colors = [];
 	let sizes = [];
+	let mağaza = $storeName;
 
 	function getKeyByValue(object, value) {
 		return Object.keys(object).find((key) => object[key] === value);
@@ -139,7 +140,7 @@
 				colors,
 				sizes,
 				amount,
-				$storeName
+				mağaza
 			);
 			alert('Ürün kaydetme başarılı.');
 			// loading = false;
