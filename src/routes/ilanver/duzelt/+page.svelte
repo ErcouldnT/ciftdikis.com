@@ -18,8 +18,8 @@
 	let isim = $editProduct.productName;
 	let tagsString = $editProduct.tags.join(', ');
 	let açıklama = $editProduct.desc;
-	let fiyat = String($editProduct.price).split(",")[0];
-	let kurus = String($editProduct.price).split(",")[1] || "00";
+	let fiyat = String($editProduct.price).split(',')[0];
+	let kurus = String($editProduct.price).split(',')[1] || '00';
 	let selectedCategory = kategoriler[$editProduct.category];
 	let resimler = [];
 	let resimLinkleri = $editProduct.imgLink;
@@ -32,6 +32,7 @@
 	}
 
 	const uiColors = [
+		{ name: 'Mor', checked: $editProduct.colors.includes('Mor') },
 		{ name: 'Kırmızı', checked: $editProduct.colors.includes('Kırmızı') },
 		{ name: 'Beyaz', checked: $editProduct.colors.includes('Beyaz') },
 		{ name: 'Siyah', checked: $editProduct.colors.includes('Siyah') },
@@ -284,7 +285,6 @@
 					<img class="w-36" src={img} alt="" />
 				</div>
 			{/each}
-
 		</div>
 	</div>
 

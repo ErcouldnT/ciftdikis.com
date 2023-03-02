@@ -28,6 +28,7 @@
 	}
 
 	const uiColors = [
+		{ name: 'Mor', checked: false },
 		{ name: 'Kırmızı', checked: false },
 		{ name: 'Beyaz', checked: false },
 		{ name: 'Siyah', checked: false },
