@@ -42,7 +42,7 @@
 			sellers.push(doc.data());
 		});
 		sellers.forEach((seller) => {
-			if (seller?.email === $user?.email) {
+			if (seller?.email === $user?.email && seller.approved) {
 				isSeller.set(true);
 			}
 		});

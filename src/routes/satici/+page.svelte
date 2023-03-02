@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { satıcıİsteğiGönder } from '../../api/sellersApi';
+	import { sellerCreator } from '../../api/sellersApi';
 	import { user } from '../../stores';
 
 	let storeName;
@@ -13,7 +13,7 @@
 	$: email = $user?.email;
 
 	const formuGonder = async () => {
-		await satıcıİsteğiGönder(storeName, address, vergiNo, city, email, phoneNumber);
+		await sellerCreator(storeName, address, vergiNo, city, email, phoneNumber);
 		alert('Teşekkürler, form başarıyla gönderildi.');
 		goto('/');
 	};

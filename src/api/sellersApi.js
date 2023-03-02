@@ -8,20 +8,44 @@ import {
 	// getDoc,
 	getDocs,
 	doc,
-	deleteDoc
+	deleteDoc,
+	updateDoc
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
 // Change this to set()
-export const sellerCreator = async (email) => {
+export const sellerCreator = async (
+	storeName,
+	address,
+	vergiNo,
+	city,
+	email,
+	phoneNumber,
+	approved = false
+) => {
 	try {
 		const docRef = await addDoc(collection(db, 'satıcılar'), {
-			email
+			storeName,
+			address,
+			vergiNo,
+			city,
+			email,
+			phoneNumber,
+			approved,
+			createdAt: Date.now()
 		});
 		console.log('Satıcı kaydedildi: ', docRef.id);
 	} catch (e) {
 		console.error('Satıcı kaydı başarısız: ', e);
 	}
+};
+
+export const satıcıyıOnayla = async (id) => {
+	const productRef = doc(db, 'satıcılar', id);
+	await updateDoc(productRef, {
+		approved: true,
+		approvedAt: Date.now()
+	});
 };
 
 export const allSellers = async () => {

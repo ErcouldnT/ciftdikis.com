@@ -10,8 +10,9 @@
 		allSellers,
 		sellerCreator,
 		removeSeller,
-		satıcıİstekleriniGetir,
-		satıcıİsteğiniSil
+		satıcıyıOnayla
+		// satıcıİstekleriniGetir,
+		// satıcıİsteğiniSil
 	} from '../../api/sellersApi';
 	import { approveProduct, removeProduct } from '../../api/itemsApi';
 	import project from '../../config/project';
@@ -22,26 +23,33 @@
 
 	const satıcılarıAl = async () => {
 		const sellersData = await allSellers();
-		satıcılar = [...sellersData];
+		satıcılar = [...sellersData].filter((s) => s.approved === true);
+		satıcıİstekleri = [...sellersData].filter((s) => s.approved === false);
 	};
 
-	const satıcıİstekleriniAl = async () => {
-		const isteklerVerisi = await satıcıİstekleriniGetir();
-		satıcıİstekleri = [...isteklerVerisi];
-	};
+	// const satıcıİstekleriniAl = async () => {
+	// 	const isteklerVerisi = await satıcıİstekleriniGetir();
+	// 	satıcıİstekleri = [...isteklerVerisi];
+	// };
 
-	const isteğiSil = async (id) => {
-		await satıcıİsteğiniSil(id);
-		window.location.reload();
-	};
+	// const isteğiSil = async (id) => {
+	// 	await satıcıİsteğiniSil(id);
+	// 	window.location.reload();
+	// };
 
 	const satıcıYarat = async (email) => {
-		await sellerCreator(email);
+		let storeName = 'Çift Dikiş Market';
+		let address = 'Çift Dikiş Market';
+		let vergiNo = 'Çift Dikiş Market';
+		let city = 'İstanbul';
+		let phoneNumber = 'Çift Dikiş Market';
+		const approved = true;
+		await sellerCreator(storeName, address, vergiNo, city, email, phoneNumber, approved);
 		window.location.reload();
 	};
 
 	satıcılarıAl();
-	satıcıİstekleriniAl();
+	// satıcıİstekleriniAl();
 
 	onMount(async () => {
 		const itemsData = await allItems();
@@ -102,7 +110,7 @@
 			</div>
 		</div>
 		<div class="border p-5 rounded">
-			<div class="p-2 font-bold">Satıcı ekle</div>
+			<div class="p-2 font-bold">Acil satıcı ekle</div>
 			<form
 				on:submit|preventDefault={() => {
 					satıcıYarat(satıcıEmail);
@@ -160,9 +168,21 @@
 						<div>Vergi no: {istek.vergiNo}</div>
 						<div>Şehir: {istek.city}</div>
 						<!-- svelte-ignore a11y-click-events-have-key-events -->
-						<div on:click={() => isteğiSil(istek.id)}>
+						<div
+							on:click={async () => {
+								await removeSeller(istek.id);
+								window.location.reload();
+							}}
+						>
 							<RemoveButton />
 						</div>
+						<button
+							on:click={async () => {
+								await satıcıyıOnayla(istek.id);
+								window.location.reload();
+							}}
+							class="btn btn-primary m-2">Onayla</button
+						>
 					</div>
 				{/each}
 			</div>
