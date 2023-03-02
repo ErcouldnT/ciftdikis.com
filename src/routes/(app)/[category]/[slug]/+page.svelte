@@ -3,8 +3,9 @@
 	import { fade, fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { getItem } from '../../../../api/itemsApi?client';
-	import { shoppingCart, favProductList } from '../../../../stores';
-	import { isAdmin, isSeller, storeName } from '../../../../stores/user';
+	import { commentCreator, yorumlarıGetir } from '../../../../api/commentApi?client';
+	import { shoppingCart, favProductList, user } from '../../../../stores';
+	// import { isAdmin, isSeller, storeName } from '../../../../stores/user';
 	import { nanoid } from 'nanoid';
 	import Rating from '../../../../components/Rating.svelte';
 
@@ -17,7 +18,8 @@
 	let selectedColor;
 	let selectedSize;
 	let comment;
-	let comments = [{ text: 'test', id: 1 }];
+	let yıldızSayısı;
+	let comments = [];
 
 	// let pictureSelected = false;
 	let imageSelected;
@@ -35,6 +37,9 @@
 		if (typeof product.imgLink === 'string') {
 			product.imgLink = [product.imgLink];
 		}
+
+		const commentsData = await yorumlarıGetir(product.id);
+		comments = [...commentsData].sort((a, b) => a.createdAt - b.createdAt);
 	});
 
 	const sepeteEkle = () => {
@@ -60,10 +65,12 @@
 		favProductList.set(favList);
 	};
 
-	const yorumGönder = () => {
+	const yorumGönder = async (ürünId, yorumGönderen, içerik, yıldızSayısı) => {
 		if (!comment) return;
-		comments.push({ text: comment.trim(), id: 2 });
+		await commentCreator(ürünId, yorumGönderen, içerik, yıldızSayısı);
+		// comments.push({ içerik: comment.trim(), yorumGönderen });
 		comment = '';
+		window.location.reload();
 	};
 </script>
 
@@ -207,18 +214,39 @@
 				<div class="text-center mb-2">Ürün yorumları</div>
 				<div>
 					{#each comments as com (com.id)}
-						<div>{com.text}</div>
+						<div>{com.yorumGönderen + ': ' + com.içerik}</div>
 					{/each}
 				</div>
-				<form class="flex gap-1 my-2" on:submit|preventDefault={yorumGönder}>
-					<input
-						bind:value={comment}
-						class="w-full rounded-xl"
-						type="text"
-						placeholder="Yorumunuzu buraya yazabilirsiniz..."
-					/>
+				<form
+					class="flex gap-1 my-2 justify-center items-center"
+					on:submit|preventDefault={yorumGönder}
+				>
+					<div class="flex flex-col">
+						<input
+							bind:value={comment}
+							class="w-full rounded-xl"
+							type="text"
+							placeholder="Yorumunuzu buraya yazabilirsiniz..."
+						/>
+						<input
+							bind:value={yıldızSayısı}
+							class="w-full rounded-xl"
+							type="text"
+							placeholder="5 üzerinden puan"
+						/>
+					</div>
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<div on:click={yorumGönder} class="btn btn-primary">Gönder</div>
+					<div
+						on:click={yorumGönder(
+							product.id,
+							$user.displayName,
+							comment.trim(),
+							Number(yıldızSayısı)
+						)}
+						class="btn btn-primary"
+					>
+						Gönder
+					</div>
 				</form>
 			</div>
 			<div class="p-5 m-auto">Satıcıya sorulan sorular</div>
