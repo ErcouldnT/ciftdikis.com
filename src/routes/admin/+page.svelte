@@ -5,6 +5,7 @@
 	import 'moment/dist/locale/tr?client';
 	// import { db } from '../../firebase?client';
 	import { allProducts } from '../../stores/products';
+	import { isAdmin, isSeller, storeName } from '../../stores/user';
 	import { allItems } from '../../api/itemsApi?client';
 	import {
 		allSellers,
@@ -77,6 +78,7 @@
 					<div class="text-left">
 						<div>Ürün: {p.productName}</div>
 						<div>Satıcı: {p.seller.displayName}</div>
+						<div>Mağaza: {p.storeName}</div>
 						<div>Tarih: {moment(p.createdAt).format('LL')}</div>
 						<div>Saat: {moment(p.createdAt).format('LT')}</div>
 						{#if p.tags}

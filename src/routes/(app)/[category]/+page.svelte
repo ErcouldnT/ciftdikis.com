@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import { approvedProducts } from '../../../stores/products';
 	import { category as categoryName } from '../../../stores/category';
+	import { isAdmin, isSeller, storeName } from '../../../stores/user';
 	import kategoriler from '../../../config/kategoriler';
 
 	let contentIsLoaded = false;
@@ -51,7 +52,9 @@
 				<div class="card-body">
 					<h2 class="card-title">{item.productName}</h2>
 					<p class="font-bold text-2xl">{item.price}₺</p>
-					<p>Satıcı: <span class="font-bold">{item.seller.displayName}</span></p>
+					<p>
+						Satıcı: <span class="font-bold">{item.storeName || item.seller.displayName}</span>
+					</p>
 					<div class="card-actions justify-end">
 						<button class="btn btn-primary">İncele</button>
 					</div>

@@ -9,7 +9,7 @@
 	import { collection, getDocs } from 'firebase/firestore?client';
 	import { auth, db } from '../firebase?client';
 	import { user, isLoggedIn } from '../stores';
-	import { isAdmin, isSeller } from '../stores/user';
+	import { isAdmin, isSeller, storeName } from '../stores/user';
 	import { approvedProducts, allProducts, homePageProductList } from '../stores/products';
 	import { allItems } from '../api/itemsApi?client';
 
@@ -44,6 +44,7 @@
 		sellers.forEach((seller) => {
 			if (seller?.email === $user?.email && seller.approved) {
 				isSeller.set(true);
+				// storeName.set(seller.storeName || 'Çift Dikiş Market');
 			}
 		});
 

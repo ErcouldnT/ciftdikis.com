@@ -26,7 +26,8 @@ export const itemCreator = async (
 	tags,
 	colors,
 	sizes,
-	amount
+	amount,
+	storeName
 ) => {
 	try {
 		const docRef = await addDoc(collection(db, 'ürünler'), {
@@ -43,7 +44,8 @@ export const itemCreator = async (
 			tags,
 			colors,
 			sizes,
-			amount: Number(amount)
+			amount: Number(amount),
+			storeName
 		});
 		console.log('Ürün kaydedildi: ', docRef.id);
 	} catch (e) {

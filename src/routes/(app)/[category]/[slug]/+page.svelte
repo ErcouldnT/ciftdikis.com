@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { getItem } from '../../../../api/itemsApi?client';
 	import { shoppingCart, favProductList } from '../../../../stores';
+	import { isAdmin, isSeller, storeName } from '../../../../stores/user';
 	import { nanoid } from 'nanoid';
 	import Rating from '../../../../components/Rating.svelte';
 
@@ -86,20 +87,24 @@
 					</div> -->
 
 				{#if !imageSelected && product.imgLink.length > 1}
-				<div class="flex justify-center items-center">
-					<div class="h-96 carousel carousel-vertical rounded-box">
-						{#each product.imgLink as image}
-							<div class="carousel-item h-full justify-center">
-								<!-- class="w-full" for img tag -->
-								<img class="rounded-box border-2 border-primary" src={image} alt="" />
-							</div>
-						{/each}
+					<div class="flex justify-center items-center">
+						<div class="h-96 carousel carousel-vertical rounded-box">
+							{#each product.imgLink as image}
+								<div class="carousel-item h-full justify-center">
+									<!-- class="w-full" for img tag -->
+									<img class="rounded-box border-2 border-primary" src={image} alt="" />
+								</div>
+							{/each}
+						</div>
 					</div>
-				</div>
 				{:else if product.imgLink.length === 1}
 					<img class="rounded-box border-2 border-primary" src={product.imgLink[0]} alt="" />
 				{:else}
-					<img class="rounded-box border-2 border-primary w-full object-contain" src={imageSelected} alt="" />
+					<img
+						class="rounded-box border-2 border-primary w-full object-contain"
+						src={imageSelected}
+						alt=""
+					/>
 				{/if}
 
 				<!-- Küçük resimler -->
@@ -150,7 +155,7 @@
 			<div class="col-span-1">
 				<div class="absolute right-0 p-5">
 					<div class="text-sm font-light">Satıcı:</div>
-					<div class="uppercase">{product.seller.displayName}</div>
+					<div class="uppercase">{product.storeName || product.seller.displayName}</div>
 					<Rating />
 				</div>
 				<div class="p-10 mt-10">

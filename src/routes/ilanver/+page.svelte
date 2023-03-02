@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { nanoid } from 'nanoid';
 	import { user } from '../../stores';
-	import { isAdmin } from '../../stores/user';
+	import { isAdmin, storeName } from '../../stores/user';
 	import { itemCreator } from '../../api/itemsApi';
 	import { storage } from '../../firebase?client';
 	import { ref, uploadBytes, getDownloadURL } from 'firebase/storage?client';
@@ -138,7 +138,8 @@
 				tags,
 				colors,
 				sizes,
-				amount
+				amount,
+				$storeName
 			);
 			alert('Ürün kaydetme başarılı.');
 			// loading = false;
